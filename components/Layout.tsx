@@ -6,7 +6,7 @@ export default function Layout ( props: PropsWithChildren ): JSX.Element {
   return (
     <>
       <Navbar />
-      <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <Container maxWidth={false} disableGutters={true} sx={{ display: 'flex', justifyContent: 'center', width: '100%', p: 0 }}>
         {props.children}
       </Container>
     </>
