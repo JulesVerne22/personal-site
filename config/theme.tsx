@@ -1,19 +1,36 @@
 import { createTheme } from '@mui/material/styles'
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    lightGrey: Palette['primary'];
+  }
+
+  interface PaletteOptions {
+    lightGrey: PaletteOptions['primary'];
+  }
+}
+
 const theme = createTheme({
   palette: {
-    mode: 'dark',
     primary: {
-      light: '#41505a',
       main: '#222831',
-      dark: '#000009',
-      contrastText: '#ffffff',
+      contrastText: '#EEEEEE'
     },
     secondary: {
-      light: '#5cdfe7',
-      main: '#00adb5',
-      dark: '#007d85',
-      contrastText: '#000000',
+      main: '#00ADB5',
+      contrastText: '#222831'
+    },
+    lightGrey: {
+      main: '#393E46',
+      contrastText: '#EEEEEE'
+    },
+    text: {
+      primary: '#EEEEEE',
+      secondary: '#222831'
+    },
+    divider: '#EEEEEE',
+    background: {
+      paper: '#222831'
     }
   }
 })

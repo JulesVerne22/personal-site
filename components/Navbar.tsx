@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { styled } from '@mui/material/styles'
 
 export default function Navbar(): JSX.Element {
-  const pages = ['Home', 'About', 'Profile']
+  const pages = ['Home', 'Games']
 
   const [state, setState] = React.useState<boolean>(false)
   const [drawerHeight, setDrawerHeight] = React.useState<number>(500)
