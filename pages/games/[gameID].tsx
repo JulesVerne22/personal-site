@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router'
-import { Container, Box } from '@mui/material'
+import { Container, Box, Button } from '@mui/material'
 
 export default function GameHandler() {
   const router = useRouter()
   const gameID = router.query.gameID as string
 
-  return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '600px' }}>
+  return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '1440px', textAlign: 'center' }}>
     {handleGame(gameID)}
+    <Button variant='contained' href='/games' sx={{ backgroundColor: 'secondary.main', '&:hover': { backgroundColor: 'secondary.dark' } }}>Return to Games</Button>
   </Box>
 }
 
