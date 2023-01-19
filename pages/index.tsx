@@ -1,5 +1,4 @@
 import { Typography, Container, Box, Grid } from '@mui/material'
-import CopyrightIcon from '@mui/icons-material/Copyright'
 import Image from 'next/image'
 
 export default function Home() {
@@ -43,19 +42,6 @@ export default function Home() {
           <Grid item xs={12} sx={{ textAlign: 'center' }}>
             <Typography variant='h5'>
               Please visit my other pages using the navigation bar. 
-            </Typography>
-          </Grid>
-        </Grid>
-      </Container>
-    </Box>
-    <Box sx={{ backgroundColor: 'text.primary' }}>
-      <Container maxWidth='lg' disableGutters={true}>
-        <Grid container spacing={0} sx={{ display: 'flex', alignItems: 'center' }}>
-          <Grid item xs={12} sx={{ textAlign: 'center' }}>
-            <Typography paragraph sx={{ color: 'text.secondary', mb: '4px' }}>
-              Julian Smith
-              <br/>
-              All rights reserved. Copyright <CopyrightIcon fontSize='inherit' /> 2023
             </Typography>
           </Grid>
         </Grid>
