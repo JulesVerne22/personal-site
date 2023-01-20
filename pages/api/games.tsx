@@ -1,16 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import Game from '../../models/Game'
 import clientPromise from '../../lib/mongodb'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const client = await clientPromise
-  const db = client.db('personal-site')
+  await clientPromise()
+
   switch (req.method) {
-    case 'POST':
-      res.send('ERROR: Not available')
-      break
     case 'GET':
-      const allGames = await db.collection('games').find({}).toArray()
-      res.json({ status: 200, data: allGames })
+      try {
+        const allGames = await Game.find({})
+        res.status(200).json({ success: true, data: allGames })
+      } catch (err) {
+        res.status(400).json({ success: false })
+      }
+      break
+    default:
+      res.status(400).json({ success: false })
       break
   }
 }

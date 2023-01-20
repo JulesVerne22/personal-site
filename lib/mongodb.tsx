@@ -1,23 +1,34 @@
-import { MongoClient } from 'mongodb'
+import mongoose from 'mongoose'
+
+declare global {
+  var mongoose: any
+}
 
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017'
-
-let client
-let clientPromise: Promise<MongoClient>
 
 if (!process.env.MONGODB_URI) {
   throw new Error('Add Mongo URI to .env.local')
 }
 
-if (process.env.NODE_ENV === 'development') {
-  if (!global._mongoClientPromise) {
-    client = new MongoClient(uri)
-    global._mongoClientPromise = client.connect()
-  }
-  clientPromise = global._mongoClientPromise
-} else {
-  client = new MongoClient(uri)
-  clientPromise = client.connect()
+let cached = global.mongoose
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null }
 }
 
-export default clientPromise
+export default async function dbConnect () {
+  if (cached.conn) {
+    return cached.conn
+  }
+
+  if (!cached.promise) {
+    const opts = {}
+  
+    cached.promise = mongoose.connect(uri, opts).then(mongoose => {
+      return mongoose
+    })
+  }
+
+  cached.conn = await cached.promise
+  return cached.conn
+}
