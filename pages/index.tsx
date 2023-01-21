@@ -7,7 +7,7 @@ export default function Home() {
       <Container maxWidth='lg' disableGutters={true}>
         <Grid container spacing={2} sx={{ padding: '50px 15px', display: 'flex', alignItems: 'center' }}>
           <Grid item xs={12} md={6} sx={{ textAlign: 'center' }}>
-            <Image src='/HomePageProfile.png' alt='Home Page Profile Image' width={300} height={300} />
+            <Image src='/images/HomePageProfile.png' alt='Home Page Profile Image' width={300} height={300} />
           </Grid>
           <Grid item xs={12} md={6} sx={{ textAlign: { xs: 'center', md: 'left' }, padding: '10px' }}>
             <Typography variant='h2'>
@@ -30,7 +30,7 @@ export default function Home() {
           </Grid>
           <Grid item xs={12} md={6} sx={{ textAlign: 'center' }}>
             <video autoPlay muted loop disableRemotePlayback playsInline>
-              <source src='/ComputerImage.mp4' type='video/mp4' />
+              <source src='/videos/ComputerImage.mp4' type='video/mp4' />
             </video>
           </Grid>
         </Grid>
