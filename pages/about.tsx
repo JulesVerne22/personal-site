@@ -12,7 +12,7 @@ export default function About() {
         </Typography>
       </Container>
     </Box>
-    <Box sx={{ backgroundColor: 'primary.main', padding: '25px 0px' }}>
+    <Box sx={{ backgroundColor: 'secondary.main', padding: '25px 0px' }}>
       <Container maxWidth='lg' disableGutters={true} sx={{ padding: '50px 15px' }}>
         <Typography variant='h6' sx={{ padding: { xs: '0px 0px 50px', md: '50px' } }}>
           I graduated from the University of Colorado Colorado Springs with a 
@@ -22,7 +22,7 @@ export default function About() {
         <Image src='/images/GradCap.png' alt='Graduation Cap Image' width='150' height='150' />
       </Container>
     </Box>
-    <Box sx={{ backgroundColor: 'secondary.main', padding: '50px 0px' }}>
+    <Box sx={{ backgroundColor: 'primary.main', padding: '50px 0px' }}>
       <Container maxWidth='lg' disableGutters={true} sx={{ padding: '50px 15px' }}>
         <Grid container spacing={2}>
           <Grid item xs={4}>

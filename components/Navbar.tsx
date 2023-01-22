@@ -8,11 +8,12 @@ import Avatar from '@mui/material/Avatar'
 import LoginIcon from '@mui/icons-material/Login'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import LogoutIcon from '@mui/icons-material/Logout'
+import { useSession,signIn,signOut } from 'next-auth/react'
 
 export default function Navbar(): JSX.Element {
   const pages = ['Home', 'Games', 'About']
 
-  const [loggedIn, setLoggedIn] = React.useState<boolean>(false)
+  const { data: session } = useSession()
   const [drawerState, setDrawerState] = React.useState<boolean>(false)
   const [drawerHeight, setDrawerHeight] = React.useState<number>(500)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -63,6 +64,14 @@ export default function Navbar(): JSX.Element {
     animation: `${swirlInFwd} 0.5s ease-out 1 ${drawerState ? 'forward' : 'reverse'} both`
   }))
 
+  let profileImage: undefined | string
+
+  if(session) {
+    profileImage = session.user!.image as string
+  } else {
+    profileImage = undefined
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar position='static' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -76,7 +85,7 @@ export default function Navbar(): JSX.Element {
                 return <Link underline='none' href={'/' + (page !== 'Home' ? page.toLowerCase() : '')} color='inherit'>{page}</Link>
               })}
               <IconButton onClick={handleMenuClick} size='small'>
-                <Avatar sx={{ backgroundColor: 'lightGrey.main' }} />
+                <Avatar sx={{ backgroundColor: 'lightGrey.main' }} alt='profile' src={profileImage} />
               </IconButton>
             </Stack>
             <Stack direction='row' justifyContent='space-between' alignItems='center' sx={{ display: {xs: 'flex', md: 'none'}, width: '100%' }}>
@@ -88,7 +97,7 @@ export default function Navbar(): JSX.Element {
                 <Image src='/images/JulianJLogo.png' alt='Logo Image' width='30' height='30' style={{ filter: 'invert(1)' }} />
               </Link>
               <IconButton onClick={handleMenuClick} size='small'>
-                <Avatar sx={{ backgroundColor: 'lightGrey.main' }} />
+                <Avatar sx={{ backgroundColor: 'lightGrey.main' }} alt='profile' src={profileImage} />
               </IconButton>
             </Stack>
           </Toolbar>
@@ -141,8 +150,8 @@ export default function Navbar(): JSX.Element {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {!loggedIn ? <>
-            <MenuItem>
+        {!session ? <>
+            <MenuItem onClick={() => signIn()}>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <LoginIcon fontSize='small' />
               </ListItemIcon>
@@ -157,7 +166,7 @@ export default function Navbar(): JSX.Element {
           </>
           :
           <>
-            <MenuItem>
+            <MenuItem onClick={() => signOut()}>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <LogoutIcon fontSize='small' />
               </ListItemIcon>
