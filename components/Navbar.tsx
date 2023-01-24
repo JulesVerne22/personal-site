@@ -9,9 +9,11 @@ import LoginIcon from '@mui/icons-material/Login'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { useSession,signIn,signOut } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 export default function Navbar(): JSX.Element {
   const pages = ['Home', 'Games', 'About']
+  const router = useRouter()
 
   const { data: session } = useSession()
   const [drawerState, setDrawerState] = React.useState<boolean>(false)
@@ -81,8 +83,8 @@ export default function Navbar(): JSX.Element {
               <Link href='/' sx={{ display: 'flex' }}>
                 <Image src='/images/JulianJLogo.png' alt='Logo Image' width='30' height='30' style={{ filter: 'invert(1)' }} />
               </Link>
-              {pages.map((page) => {
-                return <Link underline='none' href={'/' + (page !== 'Home' ? page.toLowerCase() : '')} color='inherit'>{page}</Link>
+              {pages.map((page, index) => {
+                return <Link key={index + '-topBar-link'} underline='none' href={'/' + (page !== 'Home' ? page.toLowerCase() : '')} color='inherit'>{page}</Link>
               })}
               <IconButton onClick={handleMenuClick} size='small'>
                 <Avatar sx={{ backgroundColor: 'lightGrey.main' }} alt='profile' src={profileImage} />
@@ -107,11 +109,11 @@ export default function Navbar(): JSX.Element {
         <Box role='presentation' onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)} sx={{ width: '100%', height: drawerHeight + 'px' }}>
           <Stack spacing={2} alignItems='center'>
             <Toolbar variant='dense' />
-            {pages.map((page) => {
-              return <>
-                <Link underline='none' href={'/' + (page !== 'Home' ? page.toLowerCase() : '')} color='inherit' sx={{ width: '90%' }}>{page}</Link>
-                <Divider variant='middle' sx={{ backgroundColor: 'inherit', width: '90%' }} />
-              </>
+            {pages.map((page, index) => {
+              return <React.Fragment key={index + '-drawer-fragment'}>
+                <Link key={index + '-drawer-link'} underline='none' href={'/' + (page !== 'Home' ? page.toLowerCase() : '')} color='inherit' sx={{ width: '90%' }}>{page}</Link>
+                <Divider key={index + '-drawer-divider'} variant='middle' sx={{ backgroundColor: 'inherit', width: '90%' }} />
+              </React.Fragment>
             })}
           </Stack>
         </Box>
@@ -150,29 +152,29 @@ export default function Navbar(): JSX.Element {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {!session ? <>
+        {!session ? <Box>
             <MenuItem onClick={() => signIn()}>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <LoginIcon fontSize='small' />
               </ListItemIcon>
               Login
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={() => router.push('/auth/register')}>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <BorderColorIcon fontSize='small' />
               </ListItemIcon>
               Register
             </MenuItem>
-          </>
+          </Box>
           :
-          <>
+          <Box>
             <MenuItem onClick={() => signOut()}>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <LogoutIcon fontSize='small' />
               </ListItemIcon>
               Logout
             </MenuItem>
-          </>
+          </Box>
         }
       </Menu>
     </Box>
