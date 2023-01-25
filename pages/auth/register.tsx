@@ -1,4 +1,3 @@
-import { signIn } from 'next-auth/react'
 import { Box,Container,Card,TextField,Typography,Button,Divider } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
@@ -28,12 +27,14 @@ export default function Signin () {
         email,
         plainTextPassword
       })
-    }).then((res) => res.json())
+    })
 
-    if (result.status === 'ok') {
+    const jsonResult = await result.json()
+
+    if (result.ok) {
       router.push('/auth/signin')
     } else {
-      alert('Error registering account')
+      alert(jsonResult.error)
     }
   }
 

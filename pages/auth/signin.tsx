@@ -2,8 +2,10 @@ import { signIn } from 'next-auth/react'
 import { Box,Container,Card,TextField,Typography,Button,Divider } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
+import { useRouter } from 'next/router'
 
 export default function Signin () {
+  const router = useRouter()
   const [credentials, setCredentials] = React.useState({
     email: '',
     password: ''
@@ -11,7 +13,18 @@ export default function Signin () {
 
   async function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    signIn('credentials', { email: credentials.email, password: credentials.password })
+    signIn('credentials', { redirect: false, email: credentials.email, password: credentials.password })
+      .then((response) => {
+        if (response) {
+          if (response.ok) {
+            router.push('/')
+          } else {
+            alert('Incorrect Email or Password')
+          }
+        } else {
+          alert('Failed to login')
+        }
+      })
   }
 
   return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '1440px' }}>

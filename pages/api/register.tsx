@@ -14,12 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ status: 'error', error: 'Invalid email' })
       }
 
-      // const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      // const validRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+      const validRegex = new RegExp('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
 
-      // if (email.match(validRegex)) {
-      //   return res.status(400).json({ status: 'error', error: 'Invalid email' })
-      // }
+      if (validRegex.test(email)) {
+        return res.status(400).json({ status: 'error', error: 'Invalid email' })
+      }
 
       if (!plainTextPassword || typeof plainTextPassword !== 'string') {
         return res.status(400).json({ status: 'error', error: 'Invalid password' })
@@ -36,8 +35,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           name,
           email
         })
-      } catch (err) {
-        if (err === 11000) {
+      } catch (err: any) {
+        if (err.code === 11000) {
           return res.status(400).json({ status: 'error', error: 'Username/Email already in use' })
         }
         throw err
