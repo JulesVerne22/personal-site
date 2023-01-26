@@ -15,11 +15,23 @@ export default function Navbar(): JSX.Element {
   const pages = ['Home', 'Games', 'About']
   const router = useRouter()
 
+  const [data, setData] = React.useState<null | any>(null)
+  const [isLoading, setLoading] = React.useState<boolean>(false)
   const { data: session } = useSession()
   const [drawerState, setDrawerState] = React.useState<boolean>(false)
   const [drawerHeight, setDrawerHeight] = React.useState<number>(500)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+
+  React.useEffect(() => {
+    setLoading(true)
+    fetch('/api/getImage')
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data)
+        setLoading(false)
+      })
+  }, [router.pathname])
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -68,8 +80,10 @@ export default function Navbar(): JSX.Element {
 
   let profileImage: undefined | string
 
-  if(session) {
-    profileImage = session.user!.image as string
+  if(data && data.status === 'ok') {
+    profileImage = data.data as string
+  } else if (session) {
+    profileImage = session!.user?.image as string
   } else {
     profileImage = undefined
   }

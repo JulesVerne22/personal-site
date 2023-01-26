@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const password = await bcrypt.hash(plainTextPassword, 10)
       try {
-        const response = await User.create({
+        await User.create({
           password,
           name,
           email

@@ -9,9 +9,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case 'GET':
       try {
         const allGames = await Game.find({})
-        res.status(200).json({ success: true, data: allGames })
+        res.status(200).json({ status: 'ok', data: allGames })
       } catch (err) {
-        res.status(400).json({ success: false })
+        res.status(400).json({ status: 'error' })
       }
       break
     default:
