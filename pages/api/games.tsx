@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
       break
     default:
-      res.status(400).json({ success: false })
+      res.status(400).json({ status: 'error' })
       break
   }
 }
