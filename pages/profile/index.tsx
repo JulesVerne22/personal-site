@@ -1,4 +1,5 @@
-import { Box,Container,CircularProgress,Avatar,Typography,Grid,TextField,Button,Badge,Dialog,DialogTitle,DialogContent } from '@mui/material'
+import { Box,Container,CircularProgress,Avatar,Typography,Grid,TextField,Button,Badge,Dialog,DialogTitle,DialogContent,Snackbar,Collapse } from '@mui/material'
+import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import { useSession } from 'next-auth/react'
 import React from 'react'
 import EditIcon from '@mui/icons-material/Edit'
@@ -19,6 +20,10 @@ const images: string[] = [
   'GreyOwl.png'
 ]
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+})
+
 export interface SimpleDialogProps {
   open: boolean
   selectedValue: string
@@ -34,6 +39,16 @@ export default function Profile() {
     window.location.href = '/auth/signin'
   }})
   const [newPassword, setNewPassword] = React.useState<string>('')
+  const [openAlert, setOpenAlert] = React.useState<boolean>(false)
+  const [error, setError] = React.useState<string>('')
+
+  function handleCloseAlert (event?: React.SyntheticEvent | Event, reason?: string) {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenAlert(false)
+  }
 
   React.useEffect(() => {
     setLoading(true)
@@ -89,7 +104,8 @@ export default function Profile() {
     if (imageChangeResult.ok) {
       setImage('')
     } else {
-      alert(jsonImageResult.error)
+      setError(jsonImageResult.error)
+      setOpenAlert(true)
     }
   }
   
@@ -120,9 +136,11 @@ export default function Profile() {
 
     if (passwordChangeResult.ok) {
       setNewPassword('')
-      alert('Password successfully changed.')
+      setError('Password successfully changed.')
+      setOpenAlert(true)
     } else {
-      alert(jsonPasswordResult.error)
+      setError(jsonPasswordResult.error)
+      setOpenAlert(true)
     }
   }
 
@@ -166,6 +184,11 @@ export default function Profile() {
         </> : <></>}
       </Grid>
       <SimpleDialog selectedValue={currentImage} open={open} onClose={handleClose} />
+      <Snackbar open={openAlert} TransitionComponent={Collapse} autoHideDuration={5000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert onClose={handleCloseAlert} severity='error' sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Container>
   </Box>
 }

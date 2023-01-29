@@ -1,13 +1,28 @@
-import { Box,Container,Card,TextField,Typography,Button,Divider } from '@mui/material'
+import { Box,Container,Card,TextField,Typography,Button,Divider,Snackbar,Collapse } from '@mui/material'
+import MuiAlert, { AlertProps } from '@mui/material/Alert'
 import Image from 'next/image'
 import React from 'react'
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,ref) {
+  return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
+})
+
 export default function Signin () {
-  const [credentials, setCredentials] = React.useState({
+  const [credentials, setCredentials] = React.useState<any>({
     name: '',
     email: '',
     password: ''
   })
+  const [openAlert, setOpenAlert] = React.useState<boolean>(false)
+  const [error, setError] = React.useState<string>('')
+
+  function handleClose (event?: React.SyntheticEvent | Event, reason?: string) {
+    if (reason === 'clickaway') {
+      return
+    }
+
+    setOpenAlert(false)
+  }
 
   async function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -32,7 +47,8 @@ export default function Signin () {
     if (result.ok) {
       window.location.href = '/auth/signin'
     } else {
-      alert(jsonResult.error)
+      setError(jsonResult.error)
+      setOpenAlert(true)
     }
   }
 
@@ -56,6 +72,11 @@ export default function Signin () {
           </Button>
         </Box>
       </Card>
+      <Snackbar open={openAlert} TransitionComponent={Collapse} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Container>
   </Box>
 }
