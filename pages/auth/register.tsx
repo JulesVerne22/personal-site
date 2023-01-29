@@ -1,10 +1,8 @@
 import { Box,Container,Card,TextField,Typography,Button,Divider } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
-import { useRouter } from 'next/router'
 
 export default function Signin () {
-  const router = useRouter()
   const [credentials, setCredentials] = React.useState({
     name: '',
     email: '',
@@ -32,7 +30,7 @@ export default function Signin () {
     const jsonResult = await result.json()
 
     if (result.ok) {
-      router.push('/auth/signin')
+      window.location.href = '/auth/signin'
     } else {
       alert(jsonResult.error)
     }

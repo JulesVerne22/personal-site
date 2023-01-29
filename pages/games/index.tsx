@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Grid, Card, CardActionArea, CardContent, CardMedia } from '@mui/material'
+import { Box,Container,Typography,Grid,Card,CardActionArea,CardContent,CardMedia } from '@mui/material'
 
 export default function Games({ allGames }: any) {
   const descriptionLength = 215

@@ -9,13 +9,13 @@ import LoginIcon from '@mui/icons-material/Login'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { useSession,signIn,signOut } from 'next-auth/react'
-import { useRouter } from 'next/router'
 import PersonIcon from '@mui/icons-material/Person'
+import { imageContext } from './Layout'
 
 export default function Navbar(): JSX.Element {
   const pages = ['Home', 'Games', 'About']
-  const router = useRouter()
 
+  const { image } = React.useContext(imageContext)
   const [imageData, setImageData] = React.useState<null | any>(null)
   const [isLoading, setLoading] = React.useState<boolean>(false)
   const { data: session } = useSession()
@@ -32,7 +32,7 @@ export default function Navbar(): JSX.Element {
         setImageData(newData)
         setLoading(false)
       })
-  }, [router.pathname])
+  }, [image])
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
@@ -174,7 +174,7 @@ export default function Navbar(): JSX.Element {
               </ListItemIcon>
               Login
             </MenuItem>
-            <MenuItem onClick={() => router.push('/auth/register')}>
+            <MenuItem component='a' href='/auth/register'>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <BorderColorIcon fontSize='small' />
               </ListItemIcon>
@@ -183,7 +183,7 @@ export default function Navbar(): JSX.Element {
           </Box>
           :
           <Box>
-            <MenuItem onClick={() => router.push('/profile')}>
+            <MenuItem component='a' href='/profile'>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <PersonIcon fontSize='small' />
               </ListItemIcon>

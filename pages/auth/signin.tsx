@@ -2,10 +2,8 @@ import { signIn } from 'next-auth/react'
 import { Box,Container,Card,TextField,Typography,Button,Divider } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
-import { useRouter } from 'next/router'
 
 export default function Signin () {
-  const router = useRouter()
   const [credentials, setCredentials] = React.useState({
     email: '',
     password: ''
@@ -17,7 +15,7 @@ export default function Signin () {
       .then((response) => {
         if (response) {
           if (response.ok) {
-            router.push('/')
+            window.location.href = '/'
           } else {
             alert('Incorrect Email or Password')
           }

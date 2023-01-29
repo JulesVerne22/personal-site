@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from '@mui/material'
+import { Box,Container,Grid,Typography } from '@mui/material'
 import CopyrightIcon from '@mui/icons-material/Copyright'
 
 export default function Footer() {
