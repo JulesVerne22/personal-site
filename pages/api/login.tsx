@@ -15,6 +15,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ status: 'error', error: 'Invalid username/password' })
       }
 
+      if (!user.verified) {
+        return res.status(400).json({ status: 'error', error: 'Please verify your email with the link sent to you' })
+      }
+
       if (await bcrypt.compare(password, user.password)) {
 
         return res.status(200).json({ status: 'ok', data: { 

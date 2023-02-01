@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import User from '../../models/User'
 import clientPromise from '../../lib/mongodb'
 import bcrypt from 'bcryptjs'
+import nodemailer from 'nodemailer'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await clientPromise()
@@ -29,8 +30,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       const password = await bcrypt.hash(plainTextPassword, 10)
+      let user
       try {
-        await User.create({
+        user = await User.create({
           password,
           name,
           email
@@ -41,6 +43,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         throw err
       }
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.GMAIL_USERNAME,
+          pass: process.env.GMAIL_PASSWORD
+        }
+      })
+
+      const mailConfiguration = {
+        from: process.env.GMAIL_USERNAME,
+        to: user.email,
+        subject: 'Email Verification',
+        text: `Hey! 
+        
+        Thanks for joining my site!
+        
+        Please follow this link to verify your email address: 
+
+        ${process.env.DOMAIN}/api/verify/${user.id}
+        
+        Thanks, 
+        
+        Julian`
+      }
+
+      transporter.sendMail(mailConfiguration, (error: any, info: any) => {
+        if (error) {
+          throw Error(error)
+        }
+        return res.status(200).json({ status: 'ok', data: { message: 'Email sent successfully', info: info } })
+      })
 
       res.status(200).json({ status: 'ok' })
       break
