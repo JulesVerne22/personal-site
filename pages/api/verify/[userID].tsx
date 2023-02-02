@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await clientPromise()
       
       try {
-        await User.updateOne({ id: userID }, { verified: true }, { runValidators: true })
+        await User.updateOne({ _id: userID }, { verified: true }, { runValidators: true })
       } catch (err: any) {
         return res.status(400).json({ status: 'error', error: 'Failed to verify email' })
       }
