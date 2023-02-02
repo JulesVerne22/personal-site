@@ -56,17 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         from: process.env.GMAIL_USERNAME,
         to: user.email,
         subject: 'Email Verification',
-        text: `Hey! 
-        
-        Thanks for joining my site!
-        
-        Please follow this link to verify your email address: 
-
-        ${process.env.DOMAIN}/api/verify/${user.id}
-        
-        Thanks, 
-        
-        Julian`
+        text: `Hey!\n\nThanks for joining my site!\n\nPlease follow this link to verify your email address:\n\n${process.env.DOMAIN}/api/verify/${user.id}\n\nThanks,\n\nJulian`
       }
 
       transporter.sendMail(mailConfiguration, (error: any, info: any) => {

@@ -1,6 +1,8 @@
 import { signIn } from 'next-auth/react'
-import { Box,Container,Card,TextField,Typography,Button,Divider,Snackbar,Collapse } from '@mui/material'
+import { Box,Container,Card,TextField,Typography,Button,Divider,Snackbar,Collapse,InputAdornment,IconButton } from '@mui/material'
 import MuiAlert, { AlertProps } from '@mui/material/Alert'
+import Visibility from "@mui/icons-material/Visibility"
+import VisibilityOff from "@mui/icons-material/VisibilityOff"
 import Image from 'next/image'
 import React from 'react'
 
@@ -15,6 +17,7 @@ export default function Signin () {
   })
   const [openAlert, setOpenAlert] = React.useState<boolean>(false)
   const [error, setError] = React.useState<string>('')
+  const [showPassword, setShowPassword] = React.useState<boolean>(false)
 
   function handleClose (event?: React.SyntheticEvent | Event, reason?: string) {
     if (reason === 'clickaway') {
@@ -32,7 +35,8 @@ export default function Signin () {
           if (response.ok) {
             window.location.href = '/'
           } else {
-            setError('Incorrect Email or Password')
+            const errorRes = JSON.parse(response.error || '{ error: "Not working" }')
+            setError(errorRes.error)
             setOpenAlert(true)
           }
         } else {
@@ -56,11 +60,20 @@ export default function Signin () {
         <Divider variant='middle'>
           <Typography variant='body2'>OR</Typography>
         </Divider>
-        <Box component='form' onSubmit={(event) => handleSubmit(event)} sx={{ padding: '10px 0px 30px', '& .MuiTextField-root': { width: '30ch' } }} autoComplete='off'>
+        <Box component='form' onSubmit={(event) => handleSubmit(event)} sx={{ padding: '10px 0px 30px', '& .MuiTextField-root': { width: '30ch', backgroundColor: 'text.primary' },
+          '& .MuiInputBase-root': { backgroundColor: 'text.primary' }, '& .MuiFilledInput-root:hover': { backgroundColor: 'text.primary' }, 
+          '& .MuiFilledInput-root.Mui-focused': { backgroundColor: 'text.primary' } }} autoComplete='off'>
           <TextField variant='filled' margin='dense' required fullWidth id='email' label='Email Address' name='email' autoComplete='email' autoFocus size='small'
             onChange={(event) => setCredentials({ ...credentials, email: event.target.value})} sx={{ input: { color: 'text.secondary', backgroundColor: 'text.primary' } }} />
-          <TextField variant='filled' margin='dense' required fullWidth id='password' label='Password' name='password' type='password' autoComplete='current-password' size='small'
-            onChange={(event) => setCredentials({ ...credentials, password: event.target.value})} sx={{ input: { color: 'text.secondary', backgroundColor: 'text.primary' } }} />
+          <TextField variant='filled' margin='dense' required fullWidth id='password' label='Password' name='password' type={showPassword ? 'text' : 'password'} autoComplete='off' size='small'
+            onChange={(event) => setCredentials({ ...credentials, password: event.target.value})} sx={{ input: { color: 'text.secondary', backgroundColor: 'text.primary' } }} 
+            InputProps={{ endAdornment: (
+              <InputAdornment position="end" sx={{ backgroundColor: 'text.primary' }}>
+                <IconButton onClick={() => setShowPassword(!showPassword)} sx={{ backgroundColor: 'text.primary' }}>
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ) }} />
           <Button type='submit' variant='contained' sx={{ marginTop: 1, width: '50%', backgroundColor: 'lightGrey.main' }} >
             <Typography variant='button'>
               Enter

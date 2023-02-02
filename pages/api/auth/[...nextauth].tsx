@@ -21,12 +21,12 @@ export default NextAuth({
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" }
         })
-        const user = await res.json()
+        const user: any = await res.json()
   
         if (res.ok && user) {
           return { id: user.data.id, name: user.data.name, email: user.data.email, image: user.data.image }
         }
-        return null
+        throw new Error(JSON.stringify({ status: false, error: user.error }))
       }
     })
   ],
