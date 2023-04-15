@@ -2,7 +2,7 @@ import { Box,Container,Grid,Typography } from '@mui/material'
 import CopyrightIcon from '@mui/icons-material/Copyright'
 
 export default function Footer() {
-  return <Box sx={{ backgroundColor: 'text.primary', width: '100%' }}>
+  return <Box sx={{ marginTop: 'auto', backgroundColor: 'text.primary', width: '100%' }}>
     <Container maxWidth='lg' disableGutters={true}>
       <Grid container spacing={0} sx={{ display: 'flex', alignItems: 'center' }}>
         <Grid item xs={12} sx={{ textAlign: 'center' }}>

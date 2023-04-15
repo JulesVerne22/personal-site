@@ -144,7 +144,7 @@ export default function Profile() {
     }
   }
 
-  return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '1440px' }}>
+  return <Box sx={{ backgroundColor: 'primary.main', width: '100%'}}>
     <Container maxWidth='lg' disableGutters={true}>
       <Grid container sx={{ display: 'flex', paddingTop: '50px', textAlign: 'center' }}>
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

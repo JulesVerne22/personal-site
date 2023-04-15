@@ -3,7 +3,7 @@ import { Box,Container,Typography,Grid,Card,CardActionArea,CardContent,CardMedia
 export default function Games({ allGames }: any) {
   const descriptionLength = 215
 
-  return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '1440px' }}>
+  return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '100%' }}>
     <Container maxWidth='lg' disableGutters={true} sx={{ textAlign: 'center' }}>
       <Typography variant='h1' sx={{ padding: '50px 0px'}}>
         Games

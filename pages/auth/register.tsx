@@ -55,7 +55,7 @@ export default function Signin () {
     }
   }
 
-  return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '1440px' }}>
+  return <Box sx={{ backgroundColor: 'primary.main', width: '100%' }}>
     <Container maxWidth='lg' disableGutters={true} sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
       <Card raised sx={{ backgroundColor: 'secondary.main', width: '400px', marginTop: '50px' }}>
         <Image src='/images/JulianJLogo.png' alt='Logo Image' width='70' height='70' style={{ filter: 'invert(1)', marginTop: '20px', transform: 'rotate(-90deg)' }} />

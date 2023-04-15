@@ -1,7 +1,7 @@
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { PropsWithChildren } from 'react'
-import { Container } from '@mui/material'
+import { Container, Box } from '@mui/material'
 import React from 'react'
 
 export const imageContext = React.createContext({ image: '', setImage: (img: string) => {} })
@@ -11,11 +11,13 @@ export default function Layout ( props: PropsWithChildren ): JSX.Element {
 
   return (
     <imageContext.Provider value={{ image, setImage }}>
-      <Navbar />
-      <Container maxWidth={false} disableGutters={true} sx={{ display: 'flex', justifyContent: 'center', width: '100%', p: 0 }}>
-        {props.children}
-      </Container>
-      <Footer />
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%', backgroundColor: 'primary.main' }}>
+        <Navbar />
+        <Container maxWidth={false} disableGutters={true} sx={{ display: 'flex', justifyContent: 'center', width: '100%', p: 0 }}>
+          {props.children}
+        </Container>
+        <Footer />
+      </Box>
     </imageContext.Provider>
   )
 }
