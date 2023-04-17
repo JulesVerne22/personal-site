@@ -92,26 +92,75 @@ export default function Navbar(): JSX.Element {
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar position='static' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-        <Container maxWidth={false} sx={{ display: 'flex', justifyContent: 'center', height: '50px', width: '100%' }}>
+        <Container
+          maxWidth={false}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            height: '50px',
+            width: '100%'
+          }}
+        >
           <Toolbar variant='dense' disableGutters={true} sx={{ width: '100%' }}>
-            <Stack direction='row' spacing={8} justifyContent='center' alignItems='center' sx={{ display: {xs: 'none', md: 'flex'}, width: '100%' }}>
+            <Stack
+              direction='row'
+              spacing={8}
+              justifyContent='center'
+              alignItems='center'
+              sx={{
+                display: {xs: 'none', md: 'flex'},
+                width: '100%'
+              }}
+            >
               <Link href='/' sx={{ display: 'flex' }}>
-                <Image src='/images/JulianJLogo.png' alt='Logo Image' width='30' height='30' style={{ filter: 'invert(1)' }} />
+                <Image
+                  src='/images/JulianJLogo.png'
+                  alt='Logo Image'
+                  width='30'
+                  height='30'
+                  style={{ filter: 'invert(1)' }}
+                />
               </Link>
               {pages.map((page, index) => {
-                return <Link key={index + '-topBar-link'} underline='none' href={'/' + (page !== 'Home' ? page.toLowerCase() : '')} color='inherit'>{page}</Link>
+                return <Link
+                  key={index + '-topBar-link'}
+                  underline='none'
+                  href={'/' + (page !== 'Home' ? page.toLowerCase() : '')}
+                  color='inherit'
+                >
+                  {page}
+                </Link>
               })}
               <IconButton onClick={handleMenuClick} size='small'>
                 <Avatar sx={{ backgroundColor: 'lightGrey.main' }} alt='profile' src={profileImage} />
               </IconButton>
             </Stack>
-            <Stack direction='row' justifyContent='space-between' alignItems='center' sx={{ display: {xs: 'flex', md: 'none'}, width: '100%' }}>
-              <IconButton size='large' onClick={toggleDrawer(!drawerState)} color='inherit' sx={{ position: 'relative' }}>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              alignItems='center'
+              sx={{
+                display: {xs: 'flex', md: 'none'},
+                width: '100%'
+              }}
+            >
+              <IconButton
+                size='large'
+                onClick={toggleDrawer(!drawerState)}
+                color='inherit'
+                sx={{ position: 'relative' }}
+              >
                 <NewMenuIcon />
                 <NewCloseIcon />
               </IconButton>
               <Link href='/' sx={{ display: 'flex', mr: 1 }}>
-                <Image src='/images/JulianJLogo.png' alt='Logo Image' width='30' height='30' style={{ filter: 'invert(1)' }} />
+                <Image
+                  src='/images/JulianJLogo.png'
+                  alt='Logo Image'
+                  width='30'
+                  height='30'
+                  style={{ filter: 'invert(1)' }}
+                />
               </Link>
               <IconButton onClick={handleMenuClick} size='small'>
                 <Avatar sx={{ backgroundColor: 'lightGrey.main' }} alt='profile' src={profileImage} />
@@ -121,13 +170,30 @@ export default function Navbar(): JSX.Element {
         </Container>
       </AppBar>
       <Drawer anchor='top' open={drawerState} onClose={toggleDrawer(false)} hideBackdrop={true}>
-        <Box role='presentation' onClick={toggleDrawer(false)} onKeyDown={toggleDrawer(false)} sx={{ width: '100%', height: drawerHeight + 'px' }}>
+        <Box
+          role='presentation'
+          onClick={toggleDrawer(false)}
+          onKeyDown={toggleDrawer(false)}
+          sx={{ width: '100%', height: drawerHeight + 'px' }}
+        >
           <Stack spacing={2} alignItems='center'>
             <Toolbar variant='dense' />
             {pages.map((page, index) => {
               return <React.Fragment key={index + '-drawer-fragment'}>
-                <Link key={index + '-drawer-link'} underline='none' href={'/' + (page !== 'Home' ? page.toLowerCase() : '')} color='inherit' sx={{ width: '90%' }}>{page}</Link>
-                <Divider key={index + '-drawer-divider'} variant='middle' sx={{ backgroundColor: 'inherit', width: '90%' }} />
+                <Link
+                  key={index + '-drawer-link'}
+                  underline='none'
+                  href={'/' + (page !== 'Home' ? page.toLowerCase() : '')}
+                  color='inherit'
+                  sx={{ width: '90%' }}
+                >
+                  {page}
+                </Link>
+                <Divider
+                  key={index + '-drawer-divider'}
+                  variant='middle'
+                  sx={{ backgroundColor: 'inherit', width: '90%' }}
+                />
               </React.Fragment>
             })}
           </Stack>

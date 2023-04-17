@@ -18,16 +18,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
         
         if (plainTextPassword.length < 6) {
-          return res.status(400).json({ status: 'error', error: 'Password must be at least 6 characters long' })
+          return res
+            .status(400)
+            .json({
+              status: 'error',
+              error: 'Password must be at least 6 characters long'
+            })
         }
         
         const password = await bcrypt.hash(plainTextPassword, 10)
 
         try {
           await clientPromise()
-          await User.updateOne({ email: token.email }, { password: password }, { runValidators: true })
+          await User.updateOne({
+            email: token.email },
+            { password: password },
+            { runValidators: true
+          })
         } catch (err: any) {
-          return res.status(400).json({ status: 'error', error: 'Failed to update password' })
+          return res
+            .status(400)
+            .json({
+              status: 'error',
+              error: 'Failed to update password'
+            })
         }
   
         res.status(200).json({ status: 'ok' })

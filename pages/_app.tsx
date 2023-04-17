@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import Layout from '../components/Layout'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
-import { CacheProvider,EmotionCache } from '@emotion/react'
+import { CacheProvider, EmotionCache } from '@emotion/react'
 import theme from '../config/theme'
 import createEmotionCache from '../config/createEmotionCache'
 import { SessionProvider } from 'next-auth/react'
@@ -16,7 +16,12 @@ interface MyAppProps extends AppProps {
   session?: DefaultSession
 }
 
-export default function App({ Component, pageProps, emotionCache = clientSideEmotionCache, session }: MyAppProps) {
+export default function App({
+  Component,
+  pageProps,
+  emotionCache = clientSideEmotionCache,
+  session
+}: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={theme}>

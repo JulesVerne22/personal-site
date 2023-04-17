@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react'
 import React from 'react'
 import EditIcon from '@mui/icons-material/Edit'
 import { imageContext } from '../../components/Layout'
+import type { AlertColor } from '@mui/material'
 
 const images: string[] = [
   'CartoonRobot.png',
@@ -40,7 +41,7 @@ export default function Profile() {
   }})
   const [newPassword, setNewPassword] = React.useState<string>('')
   const [openAlert, setOpenAlert] = React.useState<boolean>(false)
-  const [error, setError] = React.useState<string>('')
+  const [error, setError] = React.useState<{status: AlertColor, message: string}>({ status: 'success', message: '' })
 
   function handleCloseAlert (event?: React.SyntheticEvent | Event, reason?: string) {
     if (reason === 'clickaway') {
@@ -75,8 +76,20 @@ export default function Profile() {
   }
   
   if (status === 'loading' || isLoading) {
-    return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '1440px' }}>
-      <Container maxWidth='lg' disableGutters={true} sx={{ textAlign: 'center' }}>
+    return <Box
+      sx={{
+        backgroundColor: 'primary.main',
+        width: '100%',
+        height: '1440px'
+      }}
+    >
+      <Container
+        maxWidth='lg'
+        disableGutters={true}
+        sx={{
+          textAlign: 'center'
+        }}
+      >
         <Box sx={{ paddingTop: '50px' }}>
           <CircularProgress color='secondary' />
         </Box>
@@ -104,7 +117,7 @@ export default function Profile() {
     if (imageChangeResult.ok) {
       setImage('')
     } else {
-      setError(jsonImageResult.error)
+      setError({ status: 'error', message: `${jsonImageResult.error}` })
       setOpenAlert(true)
     }
   }
@@ -135,45 +148,152 @@ export default function Profile() {
     const jsonPasswordResult = await passwordChangeResult.json()
 
     if (passwordChangeResult.ok) {
+      document.getElementById('new-password')?.blur()
       setNewPassword('')
-      setError('Password successfully changed.')
+      setError({ status: 'success', message: 'Password successfully changed.' })
       setOpenAlert(true)
     } else {
-      setError(jsonPasswordResult.error)
+      setError({ status: 'error', message: `${jsonPasswordResult.error}` })
       setOpenAlert(true)
     }
   }
 
   return <Box sx={{ backgroundColor: 'primary.main', width: '100%'}}>
     <Container maxWidth='lg' disableGutters={true}>
-      <Grid container sx={{ display: 'flex', paddingTop: '50px', textAlign: 'center' }}>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Grid
+        container 
+        sx={{
+          display: 'flex',
+          paddingTop: '50px',
+          textAlign: 'center'
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
           { credsProvider ?
-            <Badge onClick={() => handleClickOpen()} overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} badgeContent={
-              <EditIcon fontSize='large' sx={{ backgroundColor: 'text.primary', color: 'lightGrey.main', borderRadius: '50%' }} />}>
-              <Avatar sx={{ width: '200px', height: '200px' }} alt='profile' src={profileImage} />
+            <Badge
+              onClick={() => handleClickOpen()}
+              overlap="circular"
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right'
+              }}
+              badgeContent={
+                <EditIcon
+                  fontSize='large'
+                  sx={{
+                    backgroundColor: 'text.primary',
+                    color: 'lightGrey.main',
+                    borderRadius: '50%'
+                  }}
+                />
+              }
+            >
+              <Avatar
+                sx={{
+                  width: '200px',
+                  height: '200px'
+                }}
+                alt='profile'
+                src={profileImage}
+              />
             </Badge>
             :
-            <Avatar sx={{ width: '200px', height: '200px' }} alt='profile' src={profileImage} />
+            <Avatar
+              sx={{
+                width: '200px',
+                height: '200px'
+              }}
+              alt='profile'
+              src={profileImage}
+            />
           }
         </Grid>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '25px' }}>
+        <Grid
+          item
+          xs={12}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingTop: '25px'
+          }}
+        >
           <Typography variant='h3'>
             {session ? session!.user?.name : ''}
           </Typography>
         </Grid>
         { credsProvider ? <>
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
             <Typography variant='h5' sx={{ paddingTop: '30px' }}>
               Change Password {currentImage}
             </Typography>
           </Grid>
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Box component='form' onSubmit={(event) => handleChangePassword(event)} sx={{ padding: '10px 0px 0px', '& .MuiTextField-root': { width: '30ch' } }} autoComplete='off'>
-              <TextField variant='filled' margin='dense' required fullWidth id='password' label='New Password' name='password' type='password' autoComplete='off' size='small'
-                onChange={(event) => setNewPassword(event.target.value)} sx={{ input: { color: 'text.secondary', backgroundColor: 'text.primary' } }} value={newPassword} />
+          <Grid
+            item
+            xs={12}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <Box
+              component='form'
+              onSubmit={(event) => handleChangePassword(event)}
+              sx={{
+                padding: '10px 0px 50px',
+                '& .MuiTextField-root': {
+                  width: '30ch'
+                }
+              }}
+              autoComplete='off'
+            >
+              <TextField
+                variant='filled'
+                margin='dense'
+                required
+                fullWidth
+                id='new-password'
+                label='New Password'
+                name='new-password'
+                type='password'
+                autoComplete='off'
+                size='small'
+                value={newPassword}
+                onChange={(event) => setNewPassword(event.target.value)}
+                sx={{
+                  input: {
+                    color: 'text.secondary',
+                    backgroundColor: 'text.primary'
+                  }
+                }}
+              />
               <Box sx={{ width: '100%' }}>
-                <Button type='submit' variant='contained' sx={{ marginTop: 1, width: '180px', backgroundColor: 'lightGrey.main' }} >
+                <Button
+                  type='submit'
+                  variant='contained'
+                  sx={{
+                    marginTop: 1,
+                    width: '180px',
+                    backgroundColor: 'lightGrey.main'
+                  }}
+                >
                   <Typography variant='button'>
                     Enter
                   </Typography>
@@ -183,10 +303,27 @@ export default function Profile() {
           </Grid>
         </> : <></>}
       </Grid>
-      <SimpleDialog selectedValue={currentImage} open={open} onClose={handleClose} />
-      <Snackbar open={openAlert} TransitionComponent={Collapse} autoHideDuration={5000} onClose={handleCloseAlert} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-        <Alert onClose={handleCloseAlert} severity='error' sx={{ width: '100%' }}>
-          {error}
+      <SimpleDialog
+        selectedValue={currentImage}
+        open={open}
+        onClose={handleClose}
+      />
+      <Snackbar
+        open={openAlert}
+        TransitionComponent={Collapse}
+        autoHideDuration={5000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity={error.status}
+          sx={{ width: '100%' }}
+        >
+          {error.message}
         </Alert>
       </Snackbar>
     </Container>
@@ -207,11 +344,27 @@ function SimpleDialog(props: SimpleDialogProps) {
   return <Dialog onClose={handleClose} open={open} scroll='paper'>
     <DialogTitle sx={{ textAlign: 'center' }}>Choose New Avatar</DialogTitle>
     <DialogContent sx={{ height: { xs: '200px' } }}>
-      <Grid container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '0px', paddingBottom: '5px' }}>
+      <Grid
+        container
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingTop: '0px',
+          paddingBottom: '5px'
+        }}
+      >
         {images.map((image, index) => (
-          <Grid item>
-            <Button onClick={() => handleListItemClick('images/profilePictures/' + image)} key={index + '-' + image} sx={{ margin: '5px' }}>
-              <Avatar src={'images/profilePictures/' + image} sx={{ width: '65px', height: '65px' }} />
+          <Grid item key={`${image}-${index}`}>
+            <Button
+              onClick={() => handleListItemClick('images/profilePictures/' + image)}
+              key={index + '-' + image}
+              sx={{ margin: '5px' }}
+            >
+              <Avatar
+                src={'images/profilePictures/' + image}
+                sx={{ width: '65px', height: '65px' }}
+              />
             </Button>
           </Grid>
         ))}
@@ -219,4 +372,3 @@ function SimpleDialog(props: SimpleDialogProps) {
     </DialogContent>
   </Dialog>
 }
-

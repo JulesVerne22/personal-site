@@ -24,7 +24,12 @@ export default NextAuth({
         const user: any = await res.json()
   
         if (res.ok && user) {
-          return { id: user.data.id, name: user.data.name, email: user.data.email, image: user.data.image }
+          return {
+            id: user.data.id,
+            name: user.data.name,
+            email: user.data.email,
+            image: user.data.image
+          }
         }
         throw new Error(JSON.stringify({ status: false, error: user.error }))
       }

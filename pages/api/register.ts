@@ -15,7 +15,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ status: 'error', error: 'Invalid email' })
       }
 
-      const validRegex = new RegExp('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/')
+      const validRegex = new RegExp(
+        '/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))' +
+        '@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z' +
+        '\-0-9]+\.)+[a-zA-Z]{2,}))$/'
+      )
 
       if (validRegex.test(email)) {
         return res.status(400).json({ status: 'error', error: 'Invalid email' })
@@ -26,7 +30,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       if (plainTextPassword.length < 6) {
-        return res.status(400).json({ status: 'error', error: 'Password must be at least 6 characters long' })
+        return res
+          .status(400)
+          .json({
+            status: 'error',
+            error: 'Password must be at least 6 characters long'
+          })
       }
 
       const password = await bcrypt.hash(plainTextPassword, 10)
@@ -39,7 +48,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
       } catch (err: any) {
         if (err.code === 11000) {
-          return res.status(400).json({ status: 'error', error: 'Username/Email already in use' })
+          return res
+            .status(400)
+            .json({
+              status: 'error',
+              error: 'Username/Email already in use'
+            })
         }
         throw err
       }
@@ -56,14 +70,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         from: process.env.GMAIL_USERNAME,
         to: user.email,
         subject: 'Email Verification',
-        text: `Hey!\n\nThanks for joining my site!\n\nPlease follow this link to verify your email address:\n\n${process.env.DOMAIN}/api/verify/${user.id}\n\nThanks,\n\nJulian`
+        text:
+`
+Hey!
+
+Thanks for joining my site!
+
+Please follow this link to verify your email address:
+
+${process.env.DOMAIN}/api/verify/${user.id}
+
+Thanks,
+
+Julian
+`
       }
 
       transporter.sendMail(mailConfiguration, (error: any, info: any) => {
         if (error) {
           throw Error(error)
         }
-        return res.status(200).json({ status: 'ok', data: { message: 'Email sent successfully', info: info } })
+        return res
+          .status(200)
+          .json({
+            status: 'ok',
+            data: {
+              message: 'Email sent successfully',
+              info: info
+            }
+          })
       })
 
       res.status(200).json({ status: 'ok' })

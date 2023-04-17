@@ -5,9 +5,26 @@ export default function GameHandler() {
   const router = useRouter()
   const gameID = router.query.gameID as string
 
-  return <Box sx={{ backgroundColor: 'primary.main', width: '100%', height: '1440px', textAlign: 'center' }}>
+  return <Box
+    sx={{
+      backgroundColor: 'primary.main',
+      width: '100%',
+      textAlign: 'center'
+    }}
+  >
     {handleGame(gameID)}
-    <Button variant='contained' href='/games' sx={{ backgroundColor: 'secondary.main', '&:hover': { backgroundColor: 'secondary.dark' } }}>Return to Games</Button>
+    <Button
+      variant='contained'
+      href='/games'
+      sx={{
+        backgroundColor: 'secondary.main',
+        '&:hover': {
+          backgroundColor: 'secondary.dark'
+        }
+      }}
+    >
+      Return to Games
+    </Button>
   </Box>
 }
 

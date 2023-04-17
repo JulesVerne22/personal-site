@@ -29,7 +29,11 @@ export default function Signin () {
 
   async function handleSubmit (event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    signIn('credentials', { redirect: false, email: credentials.email, password: credentials.password })
+    signIn('credentials', {
+      redirect: false,
+      email: credentials.email,
+      password: credentials.password
+    })
       .then((response) => {
         if (response) {
           if (response.ok) {
@@ -47,11 +51,47 @@ export default function Signin () {
   }
 
   return <Box sx={{ backgroundColor: 'primary.main', width: '100%' }}>
-    <Container maxWidth='lg' disableGutters={true} sx={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
-      <Card raised sx={{ backgroundColor: 'secondary.main', width: '400px', marginTop: '50px' }}>
-        <Image src='/images/JulianJLogo.png' alt='Logo Image' width='70' height='70' style={{ filter: 'invert(1)', marginTop: '20px', transform: 'rotate(-90deg)' }} />
+    <Container
+      maxWidth='lg'
+      disableGutters={true}
+      sx={{
+        display: 'flex',
+        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
+    >
+      <Card
+        raised
+        sx={{
+          backgroundColor: 'secondary.main',
+          width: '400px',
+          marginTop: '50px',
+          marginBottom: '50px'
+        }}
+      >
+        <Image
+          src='/images/JulianJLogo.png'
+          alt='Logo Image'
+          width='70'
+          height='70'
+          style={{
+            filter: 'invert(1)',
+            marginTop: '20px',
+            transform: 'rotate(-90deg)'
+          }}
+        />
         <Typography variant='h4' sx={{ padding: '0px 15px 15px' }}>Login</Typography>
-        <Button variant='contained' onClick={() => signIn('google')} sx={{ marginTop: 3, marginBottom: 2, width: '50%', backgroundColor: 'text.primary' }}>
+        <Button
+          variant='contained'
+          onClick={() => signIn('google')}
+          sx={{
+            marginTop: 3,
+            marginBottom: 2,
+            width: '50%',
+            backgroundColor: 'text.primary'
+          }}
+        >
           <Typography variant='button' sx={{ marginRight: '5px', color: 'text.secondary' }}>
             Sign in with
           </Typography>
@@ -60,28 +100,92 @@ export default function Signin () {
         <Divider variant='middle'>
           <Typography variant='body2'>OR</Typography>
         </Divider>
-        <Box component='form' onSubmit={(event) => handleSubmit(event)} sx={{ padding: '10px 0px 30px', '& .MuiTextField-root': { width: '30ch', backgroundColor: 'text.primary' },
-          '& .MuiInputBase-root': { backgroundColor: 'text.primary' }, '& .MuiFilledInput-root:hover': { backgroundColor: 'text.primary' }, 
-          '& .MuiFilledInput-root.Mui-focused': { backgroundColor: 'text.primary' } }} autoComplete='off'>
-          <TextField variant='filled' margin='dense' required fullWidth id='email' label='Email Address' name='email' autoComplete='email' autoFocus size='small'
-            onChange={(event) => setCredentials({ ...credentials, email: event.target.value})} sx={{ input: { color: 'text.secondary', backgroundColor: 'text.primary' } }} />
-          <TextField variant='filled' margin='dense' required fullWidth id='password' label='Password' name='password' type={showPassword ? 'text' : 'password'} autoComplete='off' size='small'
-            onChange={(event) => setCredentials({ ...credentials, password: event.target.value})} sx={{ input: { color: 'text.secondary', backgroundColor: 'text.primary' } }} 
+        <Box
+          component='form'
+          onSubmit={(event) => handleSubmit(event)}
+          sx={{
+            padding: '10px 0px 30px',
+            '& .MuiTextField-root': {
+              width: '30ch',
+              backgroundColor: 'text.primary'
+            },
+            '& .MuiInputBase-root': {
+              backgroundColor: 'text.primary'
+            },
+            '& .MuiFilledInput-root:hover': {
+              backgroundColor: 'text.primary'
+            }, 
+            '& .MuiFilledInput-root.Mui-focused': {
+              backgroundColor: 'text.primary'
+            }
+          }}
+          autoComplete='off'
+        >
+          <TextField
+            variant='filled'
+            margin='dense'
+            required
+            fullWidth
+            id='email'
+            label='Email Address'
+            name='email'
+            autoComplete='email'
+            autoFocus
+            size='small'
+            value={credentials.email}
+            onChange={(event) => setCredentials({ ...credentials, email: event.target.value})}
+            sx={{ input: { color: 'text.secondary', backgroundColor: 'text.primary' } }}
+          />
+          <TextField
+            variant='filled'
+            margin='dense'
+            required
+            fullWidth
+            id='password'
+            label='Password'
+            name='password'
+            type={showPassword ? 'text' : 'password'}
+            autoComplete='off'
+            size='small'
+            value={credentials.password}
+            onChange={(event) => setCredentials({ ...credentials, password: event.target.value})}
+            sx={{ input: { color: 'text.secondary', backgroundColor: 'text.primary' } }} 
             InputProps={{ endAdornment: (
               <InputAdornment position="end" sx={{ backgroundColor: 'text.primary' }}>
-                <IconButton onClick={() => setShowPassword(!showPassword)} sx={{ backgroundColor: 'text.primary' }}>
+                <IconButton
+                  onClick={() => setShowPassword(!showPassword)}
+                  sx={{ backgroundColor: 'text.primary' }}
+                >
                   {showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>
-            ) }} />
-          <Button type='submit' variant='contained' sx={{ marginTop: 1, width: '50%', backgroundColor: 'lightGrey.main' }} >
+            ) }}
+          />
+          <Button
+            type='submit'
+            variant='contained'
+            sx={{
+              marginTop: 1,
+              width: '50%',
+              backgroundColor: 'lightGrey.main'
+            }}
+          >
             <Typography variant='button'>
               Enter
             </Typography>
           </Button>
         </Box>
       </Card>
-      <Snackbar open={openAlert} TransitionComponent={Collapse} autoHideDuration={5000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Snackbar
+        open={openAlert}
+        TransitionComponent={Collapse}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+      >
         <Alert onClose={handleClose} severity='error' sx={{ width: '100%' }}>
           {error}
         </Alert>
