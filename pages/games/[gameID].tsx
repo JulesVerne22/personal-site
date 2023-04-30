@@ -17,6 +17,7 @@ export default function GameHandler() {
       variant='contained'
       href='/games'
       sx={{
+        mb: '50px',
         backgroundColor: 'secondary.main',
         '&:hover': {
           backgroundColor: 'secondary.dark'
@@ -32,8 +33,7 @@ function handleGame(gameID: string): JSX.Element {
   switch (gameID) {
     case '0':
       return <Container disableGutters={true} maxWidth='lg' sx={{ textAlign: 'center', padding: '50px 0px', width: { xs: '100%', md: '800px' }, height: { xs: '400px', md: '600px' } }}>
-          <iframe src="https://i.simmer.io/@JulesVerne22/pixelart-breakdown" style={{ width: '100%', height: '100%' }}>
-          </iframe>
+          <iframe src="https://i.simmer.io/@JulesVerne22/pixelart-breakdown" style={{ width: '100%', height: '100%' }} />
         </Container>
       default:
         return <></>

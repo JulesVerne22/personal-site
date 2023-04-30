@@ -357,12 +357,12 @@ function SimpleDialog(props: SimpleDialogProps) {
         {images.map((image, index) => (
           <Grid item key={`${image}-${index}`}>
             <Button
-              onClick={() => handleListItemClick('images/profilePictures/' + image)}
+              onClick={() => handleListItemClick('/images/profilePictures/' + image)}
               key={index + '-' + image}
               sx={{ margin: '5px' }}
             >
               <Avatar
-                src={'images/profilePictures/' + image}
+                src={'/images/profilePictures/' + image}
                 sx={{ width: '65px', height: '65px' }}
               />
             </Button>

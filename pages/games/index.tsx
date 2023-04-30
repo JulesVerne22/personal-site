@@ -25,7 +25,7 @@ export default function Games({ allGames }: any) {
         }}
       >
         {allGames.data.map((game: any, index: number) => (
-          <Grid item xs={12} md={6} lg={4} sx={{ textAlign: 'center' }}>
+          <Grid key={game} item xs={12} md={6} lg={4} sx={{ textAlign: 'center' }}>
             <Card raised sx={{ backgroundColor: 'lightGrey.main' }}>
               <CardActionArea
                 href={'/games/' + index}
