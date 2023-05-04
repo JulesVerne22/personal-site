@@ -2,8 +2,9 @@ import { Box,Typography,Container,Grid } from '@mui/material'
 import Image from 'next/image'
 
 export default function About() {
-  return <Box sx={{ width: '100%', textAlign: 'center' }}>
+  return <Box component='div' sx={{ width: '100%', textAlign: 'center' }}>
     <Box
+      component='div'
       sx={{
         backgroundColor: 'lightGrey.main',
         padding: '75px 0px'
@@ -26,7 +27,7 @@ export default function About() {
         </Typography>
       </Container>
     </Box>
-    <Box sx={{ backgroundColor: 'secondary.main', padding: '25px 0px' }}>
+    <Box component='div' sx={{ backgroundColor: 'secondary.main', padding: '25px 0px' }}>
       <Container
         maxWidth='lg'
         disableGutters={true}
@@ -54,7 +55,7 @@ export default function About() {
         />
       </Container>
     </Box>
-    <Box sx={{ backgroundColor: 'primary.main', padding: '50px 0px' }}>
+    <Box component='div' sx={{ backgroundColor: 'primary.main', padding: '50px 0px' }}>
       <Container
         maxWidth='lg'
         disableGutters={true}
@@ -63,6 +64,7 @@ export default function About() {
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <Box
+              component='div'
               sx={{
                 left: '50%',
                 transform: 'translateX(-50%)',
@@ -86,6 +88,7 @@ export default function About() {
           </Grid>
           <Grid item xs={4}>
             <Box
+              component='div'
               sx={{
                 left: '50%',
                 transform: 'translateX(-50%)',
@@ -109,6 +112,7 @@ export default function About() {
           </Grid>
           <Grid item xs={4}>
             <Box
+              component='div'
               sx={{
                 left: '50%',
                 transform: 'translateX(-50%)',

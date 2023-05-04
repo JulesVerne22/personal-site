@@ -6,6 +6,7 @@ export default function GameHandler() {
   const gameID = router.query.gameID as string
 
   return <Box
+    component='div'
     sx={{
       backgroundColor: 'primary.main',
       width: '100%',

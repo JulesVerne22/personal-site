@@ -3,6 +3,7 @@ import CopyrightIcon from '@mui/icons-material/Copyright'
 
 export default function Footer() {
   return <Box
+    component='div'
     sx={{
       flexShrink: '0',
       backgroundColor: 'text.primary',

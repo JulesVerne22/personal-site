@@ -2,8 +2,9 @@ import { Typography,Container,Box,Grid } from '@mui/material'
 import Image from 'next/image'
 
 export default function Home() {
-  return <Box sx={{ width: '100%' }}>
+  return <Box component='div' sx={{ width: '100%' }}>
     <Box
+      component='div'
       sx={{
         backgroundColor: 'secondary.main',
         padding: '25px 0px'
@@ -63,6 +64,7 @@ export default function Home() {
       </Container>
     </Box>
     <Box
+      component='div'
       sx={{
         backgroundColor: 'primary.main',
         padding: '50px 0px'
@@ -128,6 +130,7 @@ export default function Home() {
       </Container>
     </Box>
     <Box
+      component='div'
       sx={{
         backgroundColor: 'lightGrey.main',
         padding: '150px 0px'

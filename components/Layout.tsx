@@ -11,7 +11,7 @@ export default function Layout ( props: PropsWithChildren ): JSX.Element {
 
   return (
     <imageContext.Provider value={{ image, setImage }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <Box component='div' sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <Navbar />
         <Container
           maxWidth={false}

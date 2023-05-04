@@ -77,6 +77,7 @@ export default function Profile() {
   
   if (status === 'loading' || isLoading) {
     return <Box
+      component='div'
       sx={{
         backgroundColor: 'primary.main',
         width: '100%',
@@ -90,7 +91,7 @@ export default function Profile() {
           textAlign: 'center'
         }}
       >
-        <Box sx={{ paddingTop: '50px' }}>
+        <Box component='div' sx={{ paddingTop: '50px' }}>
           <CircularProgress color='secondary' />
         </Box>
       </Container>
@@ -158,7 +159,7 @@ export default function Profile() {
     }
   }
 
-  return <Box sx={{ backgroundColor: 'primary.main', width: '100%'}}>
+  return <Box component='div' sx={{ backgroundColor: 'primary.main', width: '100%'}}>
     <Container maxWidth='lg' disableGutters={true}>
       <Grid
         container 
@@ -284,7 +285,7 @@ export default function Profile() {
                   }
                 }}
               />
-              <Box sx={{ width: '100%' }}>
+              <Box component='div' sx={{ width: '100%' }}>
                 <Button
                   type='submit'
                   variant='contained'

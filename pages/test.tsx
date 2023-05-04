@@ -14,7 +14,7 @@ export default function Test() {
     sx={{
       display: 'flex',
       position: 'relative',
-      background: 'ivory',
+      background: '#599da0',
       width: '100%',
       height: '100%',
       overflow: 'hidden',
@@ -46,7 +46,6 @@ export default function Test() {
           touchAction: 'none'
         }}
         onCreated={(state) => {
-          // const fov = 45
           const planeAspectRatio = 16 / 9 as number
 
           (state.camera as PerspectiveCamera).aspect = window.innerWidth / window.innerHeight

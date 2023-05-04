@@ -50,7 +50,7 @@ export default function Signin () {
       })
   }
 
-  return <Box sx={{ backgroundColor: 'primary.main', width: '100%' }}>
+  return <Box component='div' sx={{ backgroundColor: 'primary.main', width: '100%' }}>
     <Container
       maxWidth='lg'
       disableGutters={true}

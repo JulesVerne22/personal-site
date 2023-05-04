@@ -87,7 +87,7 @@ export default function Navbar(): JSX.Element {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box component='div' sx={{ display: 'flex' }}>
       <AppBar position='static' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Container
           maxWidth={false}
@@ -168,6 +168,7 @@ export default function Navbar(): JSX.Element {
       </AppBar>
       <Drawer anchor='top' open={drawerState} onClose={toggleDrawer(false)} hideBackdrop={true} sx={{ zIndex: '1' }}>
         <Box
+          component='div'
           role='presentation'
           onClick={toggleDrawer(false)}
           onKeyDown={toggleDrawer(false)}
@@ -230,7 +231,7 @@ export default function Navbar(): JSX.Element {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        {!session ? <Box>
+        {!session ? <Box component='div'>
             <MenuItem onClick={() => signIn()}>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <LoginIcon fontSize='small' />
@@ -245,7 +246,7 @@ export default function Navbar(): JSX.Element {
             </MenuItem>
           </Box>
           :
-          <Box>
+          <Box component='div'>
             <MenuItem component='a' href='/profile'>
               <ListItemIcon sx={{ color: 'inherit' }}>
                 <PersonIcon fontSize='small' />

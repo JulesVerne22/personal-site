@@ -4,6 +4,7 @@ export default function Games({ allGames }: any) {
   const descriptionLength = 215
 
   return <Box
+    component='div'
     sx={{
       backgroundColor: 'primary.main',
       width: '100%',
