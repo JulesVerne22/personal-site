@@ -17,7 +17,6 @@ export default function Navbar(): JSX.Element {
 
   const { image } = React.useContext(imageContext)
   const [imageData, setImageData] = React.useState<null | any>(null)
-  const [isLoading, setLoading] = React.useState<boolean>(false)
   const { data: session } = useSession()
   const [drawerState, setDrawerState] = React.useState<boolean>(false)
   const [drawerHeight, setDrawerHeight] = React.useState<number>(500)
@@ -25,12 +24,10 @@ export default function Navbar(): JSX.Element {
   const open = Boolean(anchorEl)
 
   React.useEffect(() => {
-    setLoading(true)
     fetch('/api/getImage')
       .then((res) => res.json())
       .then((newData) => {
         setImageData(newData)
-        setLoading(false)
       })
   }, [image])
 
@@ -169,7 +166,7 @@ export default function Navbar(): JSX.Element {
           </Toolbar>
         </Container>
       </AppBar>
-      <Drawer anchor='top' open={drawerState} onClose={toggleDrawer(false)} hideBackdrop={true}>
+      <Drawer anchor='top' open={drawerState} onClose={toggleDrawer(false)} hideBackdrop={true} sx={{ zIndex: '1' }}>
         <Box
           role='presentation'
           onClick={toggleDrawer(false)}
