@@ -46,7 +46,7 @@ export default function Home() {
             }}
           >
             <Typography variant='h2'>
-              I'm Julian!
+              I&apos;m Julian!
             </Typography>
             <Typography
               variant='h4'
