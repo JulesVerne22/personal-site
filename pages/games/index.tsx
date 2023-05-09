@@ -1,6 +1,6 @@
 import { Box,Container,Typography,Grid,Card,CardActionArea,CardContent,CardMedia } from '@mui/material'
 
-export default function Games({ allGames }: any) {
+export default function Games({ allGames }: any): JSX.Element {
   const descriptionLength = 215
 
   return <Box
@@ -8,7 +8,8 @@ export default function Games({ allGames }: any) {
     sx={{
       backgroundColor: 'primary.main',
       width: '100%',
-      height: '100%'
+      height: '100%',
+      mb: '50px'
     }}
   >
     <Container maxWidth='lg' disableGutters={true} sx={{ textAlign: 'center' }}>
@@ -70,7 +71,7 @@ export default function Games({ allGames }: any) {
   </Box>
 }
 
-export async function getServerSideProps(context: any) {
+export async function getServerSideProps(context: any): Promise<any> {
   let res = await fetch(process.env.DOMAIN + '/api/games', {
     method: 'GET',
     headers: {

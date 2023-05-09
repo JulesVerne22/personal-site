@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { Container, Box, Button } from '@mui/material'
 
-export default function GameHandler() {
+export default function GameHandler(): JSX.Element {
   const router = useRouter()
   const gameID = router.query.gameID as string
 

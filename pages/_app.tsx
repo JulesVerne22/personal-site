@@ -21,7 +21,7 @@ export default function App({
   pageProps,
   emotionCache = clientSideEmotionCache,
   session
-}: MyAppProps) {
+}: MyAppProps): JSX.Element {
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={theme}>

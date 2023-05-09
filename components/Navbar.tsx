@@ -1,15 +1,15 @@
 import React from 'react'
-import { AppBar,Toolbar,Stack,Link,Container,IconButton,Drawer,Box,keyframes,Divider,Menu,MenuItem,ListItemIcon } from '@mui/material'
+import { Avatar, AppBar,Toolbar,Stack,Link,Container,IconButton,Drawer,Box,keyframes,Divider,Menu,MenuItem,ListItemIcon } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import Image from 'next/image'
 import { styled } from '@mui/material/styles'
-import Avatar from '@mui/material/Avatar'
 import LoginIcon from '@mui/icons-material/Login'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { useSession,signIn,signOut } from 'next-auth/react'
 import PersonIcon from '@mui/icons-material/Person'
+import { Squash as Hamburger } from 'hamburger-react'
 import { imageContext } from './Layout'
 
 export default function Navbar(): JSX.Element {
@@ -142,13 +142,17 @@ export default function Navbar(): JSX.Element {
               }}
             >
               <IconButton
-                size='large'
+                size='small'
                 onClick={toggleDrawer(!drawerState)}
                 color='inherit'
-                sx={{ position: 'relative' }}
+                sx={{ position: 'relative', p: 0 }}
               >
-                <NewMenuIcon />
-                <NewCloseIcon />
+                <Hamburger
+                  toggled={drawerState}
+                  size={25}
+                  distance='md'
+                  rounded
+                />
               </IconButton>
               <Link href='/' sx={{ display: 'flex', mr: 1 }}>
                 <Image

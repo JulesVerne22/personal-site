@@ -1,7 +1,7 @@
 import { Box,Typography,Container,Grid } from '@mui/material'
 import Image from 'next/image'
 
-export default function About() {
+export default function About(): JSX.Element {
   return <Box component='div' sx={{ width: '100%', textAlign: 'center' }}>
     <Box
       component='div'
@@ -22,7 +22,7 @@ export default function About() {
           width='300'
         />
         <Typography variant='h6' sx={{ paddingTop: '20px' }}>
-          Hello, I'm Julian! I grew up in Pennsylvania, 
+          Hello, I&apos;m Julian! I grew up in Pennsylvania, 
           but I currently reside in Omaha, Nebraska.
         </Typography>
       </Container>
@@ -43,8 +43,8 @@ export default function About() {
           }}
         >
           I graduated from the University of Colorado Colorado 
-          Springs with a bachelor's degree in computer engineering. 
-          I'm also pursuing my master's in computer science at 
+          Springs with a bachelor&apos;s degree in computer engineering. 
+          I&apos;m also pursuing my master&apos;s in computer science at 
           Georgia Tech.
         </Typography>
         <Image

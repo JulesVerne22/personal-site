@@ -26,6 +26,8 @@
     "bcryptjs": "^2.4.3",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
+    "hamburger-react": "^2.5.0",
+    "leva": "^0.9.34",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.4",
     "next": "13.1.1",

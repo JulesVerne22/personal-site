@@ -9,7 +9,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
   return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />
 })
 
-export default function Signin () {
+export default function Register(): JSX.Element {
   const [credentials, setCredentials] = React.useState<any>({
     name: '',
     email: '',

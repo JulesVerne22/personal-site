@@ -31,7 +31,7 @@ export interface SimpleDialogProps {
   onClose: (value: string) => void
 }
 
-export default function Profile() {
+export default function Profile(): JSX.Element {
   const { image: currentImage, setImage } = React.useContext(imageContext)
   const [open, setOpen] = React.useState<boolean>(false)
   const [imageData, setImageData] = React.useState<null | any>(null)
