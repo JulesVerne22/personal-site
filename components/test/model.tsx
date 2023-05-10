@@ -10,7 +10,7 @@ export default function Model() {
       position={[ 0, 1.56, -1.4 ]}
       rotation-x={-0.256}
     >
-      <iframe src='https://dev.julianinnovation.com/' />
+      <iframe src='https://julianinnovation.com/' />
     </Html>
   </primitive>
 }
