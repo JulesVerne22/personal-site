@@ -8,3 +8,8 @@ services:
     networks:
       - test
     restart: unless-stopped
+
+networks:
+  test:
+    name: test
+    external: true
