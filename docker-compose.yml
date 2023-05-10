@@ -5,6 +5,7 @@ services:
     image: julesverne22/personal-site:latest
     ports:
       - "3030:3000"
+      - "8080:8080"
     networks:
       - test
     restart: unless-stopped
