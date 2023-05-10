@@ -8,6 +8,8 @@ services:
     networks:
       - test
     restart: unless-stopped
+    env_file:
+      - .env
 
 networks:
   test:
