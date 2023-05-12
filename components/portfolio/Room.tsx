@@ -26,13 +26,14 @@ export default function Room(): JSX.Element {
   room.scene.traverse((child) => {
     if(child.type === 'Mesh') {
       child.castShadow = true
-      child.receiveShadow = true
+      child.receiveShadow = true;
+      ((child as Mesh).material as MeshStandardMaterial).envMapIntensity = 0.18
 
       if(child.name === 'SidePanel') {
         const childMaterial = (child as Mesh).material = new MeshPhysicalMaterial()
-        childMaterial.roughness = 0.2
+        childMaterial.roughness = 0.8
         childMaterial.color.set(0x666666)
-        childMaterial.ior = 2
+        childMaterial.ior = 1.15
         childMaterial.transmission = 1
         childMaterial.opacity = 1
       }else if(child.name === 'ComputerLEDs') {
