@@ -1,13 +1,17 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import Layout from '../components/Layout'
 import { ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
-import theme from '../config/theme'
-import createEmotionCache from '../config/createEmotionCache'
 import { SessionProvider } from 'next-auth/react'
 import { DefaultSession } from 'next-auth'
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import '../styles/globals.css'
+import theme from '../config/theme'
+import Layout from '../components/Layout'
+import createEmotionCache from '../config/createEmotionCache'
 
 const clientSideEmotionCache = createEmotionCache()
 
