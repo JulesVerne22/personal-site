@@ -2,6 +2,7 @@ import { Box } from '@mui/material'
 import HeroSection from './HeroSection'
 import AboutMe from './AboutMe'
 import MyWork from './MyWork'
+import CustomizeScene from './CustomizeScene'
 
 export default function Page(): JSX.Element {
   return <Box
@@ -13,6 +14,7 @@ export default function Page(): JSX.Element {
         overflow: 'hidden'
       }}
     >
+    <CustomizeScene />
     <Box component='div' sx={{ position: 'relative' }}>
       <HeroSection />
 

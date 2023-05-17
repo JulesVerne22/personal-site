@@ -43,6 +43,7 @@ export default function Portfolio(): JSX.Element {
       >
         <OrbitControls
           enableZoom={false}
+          enabled={false}
         />
         <Camera />
 
