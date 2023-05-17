@@ -5,11 +5,8 @@ export default function Home(): JSX.Element {
   return <Box
     component='div'
     sx={{
-      position: 'fixed',
-      width: '100svw',
-      height: '100svh',
-      top: 0,
-      background: '#599da0'
+      width: '100%',
+      height: '100%'
     }}
   >
     <Portfolio />
