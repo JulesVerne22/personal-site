@@ -3,11 +3,11 @@ import { subscribeWithSelector } from 'zustand/middleware'
 import { PerspectiveCamera, OrthographicCamera, Group } from 'three'
 
 interface PortfolioState {
-  oCamera: OrthographicCamera | undefined,
-  pCamera: PerspectiveCamera | undefined,
-  scene: Group | undefined,
-  setOCamera: (oCamera: OrthographicCamera) => void,
-  setPCamera: (oCamera: PerspectiveCamera) => void,
+  oCamera: OrthographicCamera | undefined
+  pCamera: PerspectiveCamera | undefined
+  scene: Group | undefined
+  setOCamera: (oCamera: OrthographicCamera) => void
+  setPCamera: (oCamera: PerspectiveCamera) => void
   setScene: (scene: Group) => void
 }
 

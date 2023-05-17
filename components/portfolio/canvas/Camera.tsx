@@ -24,7 +24,7 @@ export default function Camera(): JSX.Element {
   useEffect(() => {
     setOCamera(oCamera.current)
     setPCamera(pCamera.current)
-  }, [setOCamera, setPCamera])
+  }, [])
 
   return <>
     <OrthographicCamera

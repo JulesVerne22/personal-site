@@ -1,6 +1,7 @@
 body {
   padding-right: 0px !important;
   height: 100vh;
+  overflow-x: hidden;
 }
 
 #__next {

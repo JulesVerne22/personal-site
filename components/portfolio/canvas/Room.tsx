@@ -87,7 +87,7 @@ export default function Room(): JSX.Element {
 
   useEffect(() => {
     setScene(scene.current)
-  }, [setScene])
+  }, [])
 
   return <group ref={scene} position-y={-0.5}>
     <group scale={0.65}>
