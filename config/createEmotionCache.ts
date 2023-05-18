@@ -1,5 +1,16 @@
 import createCache from '@emotion/cache'
 
+const isBrowser = typeof document !== 'undefined'
+
 export default function createEmotionCache() {
-  return createCache({ key: 'css', prepend: true })
+  let insertionPoint
+
+  if(isBrowser) {
+    const emotionInsertionPoint = document.querySelector<HTMLMetaElement>(
+      'meta[name="emotion-insertion-point"]'
+    ) as HTMLMetaElement
+    insertionPoint = emotionInsertionPoint
+  }
+
+  return createCache({ key: 'mui-style', insertionPoint })
 }

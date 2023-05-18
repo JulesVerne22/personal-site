@@ -15,7 +15,7 @@ import createEmotionCache from '../config/createEmotionCache'
 
 const clientSideEmotionCache = createEmotionCache()
 
-interface MyAppProps extends AppProps {
+export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache,
   session?: DefaultSession
 }
