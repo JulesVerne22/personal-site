@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           res.status(400).json({ status: 'error', error: 'Failed to get image' })
         }
       } else {
-        res.status(400).json({ status: 'error', error: 'Failed to get image' })
+        res.status(200).json({ status: 'error', error: 'Failed to get image' })
       }
       break
     default:
