@@ -1,9 +1,13 @@
 import * as React from 'react'
-import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document'
+import Document, { Html, Head, Main, NextScript, DocumentContext, DocumentProps } from 'next/document'
 import createEmotionServer from '@emotion/server/create-instance'
 import createEmotionCache from '../config/createEmotionCache'
 
-export default class MyDocument extends Document {
+interface MyDocumentProps extends DocumentProps {
+  emotionStyleTags: JSX.Element[]
+}
+
+export default class MyDocument extends Document<MyDocumentProps> {
   render() {
     return (
       <Html lang='en'>
