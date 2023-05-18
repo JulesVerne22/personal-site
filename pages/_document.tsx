@@ -57,6 +57,9 @@ MyDocument.getInitialProps = async (ctx: DocumentContext) => {
 
   return {
     ...initialProps,
-    emotionStyleTags
+    styles: [
+      ...React.Children.toArray(initialProps.styles),
+      ...emotionStyleTags
+    ]
   }
 }
