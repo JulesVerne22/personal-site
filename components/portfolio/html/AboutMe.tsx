@@ -36,7 +36,10 @@ export default function AboutMe(props: {
   return <Box
     component='div'
     sx={{
-      width: '50%',
+      width: {
+        xs: '100%',
+        sm: '50%'
+      },
       padding: '1000px 4%',
       margin: 0,
       backgroundColor: props.background,
