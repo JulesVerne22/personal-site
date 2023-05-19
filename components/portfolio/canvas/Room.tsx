@@ -25,7 +25,7 @@ export default function Room(): JSX.Element {
     Screen2: {
       value: '#004444'
     },
-  })
+  }, { collapsed: true })
 
   const room = useGLTF('/models/portfolioRoom.glb', true) as LoadedGLTF
   room.scene.rotation.y = -Math.PI / 4
@@ -33,26 +33,30 @@ export default function Room(): JSX.Element {
     if(child.type === 'Mesh') {
       child.castShadow = true
       child.receiveShadow = true;
-      ((child as Mesh).material as MeshStandardMaterial).envMapIntensity = 0.16
 
       if(child.name === 'SidePanel') {
         const childMaterial = (child as Mesh).material = new MeshPhysicalMaterial()
-        childMaterial.roughness = 0.8
+        childMaterial.roughness = 1
         childMaterial.color.set(0x666666)
-        childMaterial.ior = 1.15
+        childMaterial.ior = 1.1
         childMaterial.transmission = 1
         childMaterial.opacity = 1
+        childMaterial.toneMapped = false
       }else if(child.name === 'ComputerLEDs') {
         const childMaterial = (child as Mesh).material = new MeshStandardMaterial()
         childMaterial.roughness = 1
         childMaterial.color.set(0x000000)
+        childMaterial.emissiveIntensity = 3
         childMaterial.emissive.set(LEDs)
+        childMaterial.toneMapped = false
       }else if(child.name === 'Screen1') {
         const childMaterial = (child as Mesh).material = new MeshBasicMaterial()
         childMaterial.color.set(Screen1)
+        childMaterial.toneMapped = false
       }else if(child.name === 'Screen2') {
         const childMaterial = (child as Mesh).material = new MeshBasicMaterial()
         childMaterial.color.set(Screen2)
+        childMaterial.toneMapped = false
       }
     }
   })

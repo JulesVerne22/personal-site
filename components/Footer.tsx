@@ -8,7 +8,8 @@ export default function Footer(): JSX.Element {
       flexShrink: '0',
       backgroundColor: 'text.primary',
       width: '100%',
-      zIndex: '5'
+      zIndex: '5',
+      boxShadow: 'rgba(0, 0, 0, 0.48) 0px 6px 16px'
     }}
   >
     <Container maxWidth='lg' disableGutters={true}>

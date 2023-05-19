@@ -13,7 +13,7 @@ export default function Camera(): JSX.Element {
       min: 0,
       max: 10
     }
-  })
+  }, { collapsed: true })
 
   const setOCamera = usePortfolioStore(state => state.setOCamera)
   const setPCamera = usePortfolioStore(state => state.setPCamera)

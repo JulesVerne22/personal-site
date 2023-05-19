@@ -30,14 +30,16 @@ const Content = styled(Typography)<TypographyProps>(({ theme }) => ({
   marginTop: '18px'
 }))
 
-export default function AboutMe(): JSX.Element {
+export default function AboutMe(props: {
+  background: string
+}): JSX.Element {
   return <Box
     component='div'
     sx={{
       width: '50%',
       padding: '1000px 4%',
       margin: 0,
-      backgroundColor: 'primary.main',
+      backgroundColor: props.background,
       marginRight: 'auto'
     }}
   >

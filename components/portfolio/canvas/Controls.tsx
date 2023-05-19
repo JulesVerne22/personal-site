@@ -34,7 +34,7 @@ export default function Controls(): JSX.Element {
             scrollTrigger: {
               trigger: '.first-move',
               scrub: 0.6,
-              markers: true,
+              markers: false,
               start: 'top top',
               end: 'bottom bottom',
               invalidateOnRefresh: true
@@ -54,7 +54,41 @@ export default function Controls(): JSX.Element {
             scrollTrigger: {
               trigger: '.first-move',
               scrub: 0.6,
-              markers: true,
+              markers: false,
+              start: 'top top',
+              end: 'bottom bottom',
+              invalidateOnRefresh: true
+            }
+          }
+        )
+        gsap.to(
+          [oCamera.position],
+          {
+            x: () => {
+              const currentViewport = getViewport()
+              return currentViewport.width * 0.0013
+            },
+            scrollTrigger: {
+              trigger: '.second-move',
+              scrub: 0.6,
+              markers: false,
+              start: 'top top',
+              end: 'bottom bottom',
+              invalidateOnRefresh: true
+            }
+          }
+        )
+        gsap.to(
+          [pCamera.position],
+          {
+            x: () => {
+              const currentViewport = getViewport()
+              return currentViewport.width * 0.25
+            },
+            scrollTrigger: {
+              trigger: '.second-move',
+              scrub: 0.6,
+              markers: false,
               start: 'top top',
               end: 'bottom bottom',
               invalidateOnRefresh: true

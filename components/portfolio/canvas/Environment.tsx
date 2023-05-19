@@ -8,7 +8,7 @@ export default function Environment(): JSX.Element {
   } = useControls('Environment', {
     grid: { value: false },
     axes: { value: false }
-  })
+  }, { collapsed: true })
 
   return <>
     <Env

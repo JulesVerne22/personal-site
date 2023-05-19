@@ -21,7 +21,7 @@ export default function Portfolio(): JSX.Element {
 
   return <>
     <Box component='div' sx={{ '& > div': { marginTop: '50px' }}}>
-      <Leva hidden={typeof debug === 'undefined'} />
+      <Leva hidden={typeof debug === 'undefined'} collapsed />
     </Box>
     <Box
       component='div'
@@ -29,16 +29,17 @@ export default function Portfolio(): JSX.Element {
         position: 'fixed',
         width: '100svw',
         height: '100svh',
-        top: 0,
-        background: '#599da0'
+        top: 0
       }}
     >
       <Canvas
         shadows
         gl={{
           useLegacyLights: true,
-          toneMapping: CineonToneMapping,
-          toneMappingExposure: 1.75
+          toneMapping: CineonToneMapping
+        }}
+        onCreated={state => {
+          state.gl.toneMappingExposure = 0.2
         }}
       >
         <OrbitControls
