@@ -43,7 +43,8 @@ export default function MyWork(props: {
       padding: '1000px 4%',
       margin: 0,
       backgroundColor: props.background,
-      marginLeft: 'auto'
+      marginLeft: 'auto',
+      transition: 'background-color 0.5s, color 0.5s'
     }}
   >
     <Box

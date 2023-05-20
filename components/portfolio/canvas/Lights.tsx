@@ -164,12 +164,20 @@ export default function Lights(): JSX.Element {
   return <>
     <spotLight
       ref={sLight}
-      color={new Color(
-        spotLightLight.r / 255,
-        spotLightLight.g / 255,
-        spotLightLight.b / 255
-      )}
-      intensity={spotLightIntensityLight}
+      color={mode ?
+        new Color(
+          spotLightLight.r / 255,
+          spotLightLight.g / 255,
+          spotLightLight.b / 255
+        )
+        :
+        new Color(
+          spotLightDark.r / 255,
+          spotLightDark.g / 255,
+          spotLightDark.b / 255
+        )
+      }
+      intensity={mode ? spotLightIntensityLight : spotLightIntensityDark}
       castShadow
       position={[3.15, 3.35, -5]}
       target-position={[0, 0, 1.8]}
@@ -179,12 +187,20 @@ export default function Lights(): JSX.Element {
     />
     <pointLight
       ref={pLight}
-      color={new Color(
-        pointLightLight.r / 255,
-        pointLightLight.g / 255,
-        pointLightLight.b / 255
-      )}
-      power={pointLightPowerLight}
+      color={mode ?
+        new Color(
+          pointLightLight.r / 255,
+          pointLightLight.g / 255,
+          pointLightLight.b / 255
+        )
+        :
+        new Color(
+          pointLightDark.r / 255,
+          pointLightDark.g / 255,
+          pointLightDark.b / 255
+        )
+      }
+      power={mode ? pointLightPowerLight : pointLightPowerDark}
       castShadow
       position={[0, 1.7, 0]}
       shadow-camera-far={20}
@@ -197,12 +213,20 @@ export default function Lights(): JSX.Element {
     />
     <pointLight
       ref={pLight2}
-      color={new Color(
-        pointLightLight.r / 255,
-        pointLightLight.g / 255,
-        pointLightLight.b / 255
-      )}
-      power={pointLightPowerLight}
+      color={mode ?
+        new Color(
+          pointLightLight.r / 255,
+          pointLightLight.g / 255,
+          pointLightLight.b / 255
+        )
+        :
+        new Color(
+          pointLightDark.r / 255,
+          pointLightDark.g / 255,
+          pointLightDark.b / 255
+        )
+      }
+      power={mode ? pointLightPowerLight : pointLightPowerDark}
       castShadow
       position={[-1.5, 1.5, -2.5]}
       shadow-camera-far={20}

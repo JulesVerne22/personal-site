@@ -15,49 +15,53 @@ interface LoadedGLTF extends GLTF {
 }
 
 export default function Room(): JSX.Element {
-  const { LEDs, Screen1, Screen2 } = useControls('Office', {
+  const {setScene, ledColor, setLEDColor} = usePortfolioStore(state => ({
+    setScene: state.setScene,
+    ledColor: state.ledColor,
+    setLEDColor: state.setLEDColor
+  }))
+  
+  const { Screen } = useControls('Office', {
     LEDs: {
-      value: '#00ADB5'
+      value: ledColor,
+      onChange: (v) => {
+        setLEDColor(v)
+      }
     },
-    Screen1: {
-      value: '#004444'
-    },
-    Screen2: {
-      value: '#004444'
-    },
+    Screen: {
+      value: '#000000'
+    }
   }, { collapsed: true })
 
-  const room = useGLTF('/models/portfolioRoom.glb', true) as LoadedGLTF
+  const room = useGLTF('/models/portfolioRoomRegrouped.glb', true) as LoadedGLTF
   room.scene.rotation.y = -Math.PI / 4
   room.scene.traverse((child) => {
-    if(child.type === 'Mesh') {
-      child.castShadow = true
-      child.receiveShadow = true;
+    child.castShadow = true
+    child.receiveShadow = true
 
-      if(child.name === 'SidePanel') {
-        const childMaterial = (child as Mesh).material = new MeshPhysicalMaterial()
-        childMaterial.roughness = 1
-        childMaterial.color.set(0x666666)
-        childMaterial.ior = 1.1
-        childMaterial.transmission = 1
-        childMaterial.opacity = 1
-        childMaterial.toneMapped = false
-      }else if(child.name === 'ComputerLEDs') {
-        const childMaterial = (child as Mesh).material = new MeshStandardMaterial()
-        childMaterial.roughness = 1
-        childMaterial.color.set(0x000000)
-        childMaterial.emissiveIntensity = 3
-        childMaterial.emissive.set(LEDs)
-        childMaterial.toneMapped = false
-      }else if(child.name === 'Screen1') {
-        const childMaterial = (child as Mesh).material = new MeshBasicMaterial()
-        childMaterial.color.set(Screen1)
-        childMaterial.toneMapped = false
-      }else if(child.name === 'Screen2') {
-        const childMaterial = (child as Mesh).material = new MeshBasicMaterial()
-        childMaterial.color.set(Screen2)
-        childMaterial.toneMapped = false
-      }
+    if(child.name === 'DeskItems') {
+      const sidePanelMaterial = (child.children[8] as Mesh).material = new MeshPhysicalMaterial()
+      sidePanelMaterial.roughness = 1
+      sidePanelMaterial.color.set(0x666666)
+      sidePanelMaterial.ior = 1.1
+      sidePanelMaterial.transmission = 1
+      sidePanelMaterial.opacity = 1
+      sidePanelMaterial.toneMapped = false
+
+      const computerLightsMaterial = (child.children[6] as Mesh).material = new MeshStandardMaterial()
+      computerLightsMaterial.roughness = 1
+      computerLightsMaterial.color.set(0x000000)
+      computerLightsMaterial.emissiveIntensity = 3
+      computerLightsMaterial.emissive.set(ledColor)
+      computerLightsMaterial.toneMapped = false
+
+      const childMaterial = (child.children[9] as Mesh).material = new MeshBasicMaterial()
+      childMaterial.color.set(Screen)
+      childMaterial.toneMapped = false
+    }else if(child.name === 'FloorItems') {
+      const carpetMaterial = (child.children[0] as Mesh).material as MeshStandardMaterial
+      carpetMaterial.color.set(ledColor)
+      carpetMaterial.color.multiplyScalar(0.25)
     }
   })
 
@@ -65,7 +69,6 @@ export default function Room(): JSX.Element {
   const lerpTarget = useRef<number>(0)
   const lerpEase = useRef<number>(0.1)
   const scene = useRef<Group>(null!)
-  const setScene = usePortfolioStore(state => state.setScene)
 
   useFrame(() => {
     lerpCurrent.current = gsap.utils.interpolate(

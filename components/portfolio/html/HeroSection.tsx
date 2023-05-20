@@ -17,7 +17,8 @@ export default function HeroSection(): JSX.Element {
         sx={{
           position: 'absolute',
           bottom: '30%',
-          left: '0'
+          left: '0',
+          transition: 'color 2.5s'
         }}
       >
         <Typography variant='h1' fontWeight='500' fontSize='5rem' textTransform='uppercase'

@@ -43,7 +43,8 @@ export default function AboutMe(props: {
       padding: '1000px 4%',
       margin: 0,
       backgroundColor: props.background,
-      marginRight: 'auto'
+      marginRight: 'auto',
+      transition: 'background-color 0.5s, color 0.5s'
     }}
   >
     <Box
