@@ -3,7 +3,7 @@ import { useThree } from '@react-three/fiber'
 import { PointLight, SpotLight, PointLightHelper, SpotLightHelper, Color } from 'three'
 import { useRef, useEffect } from 'react'
 import { useControls, folder } from 'leva'
-import { gsap, Expo, Sine } from 'gsap'
+import { gsap } from 'gsap'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
 
 export default function Lights(): JSX.Element {
@@ -100,7 +100,7 @@ export default function Lights(): JSX.Element {
           [gl],
           {
             toneMappingExposure: toneMappingIntensityLight,
-            ease: Sine.easeIn,
+            ease: 'sine.easeIn',
             duration: transitionDuration
           }
         )
@@ -141,7 +141,7 @@ export default function Lights(): JSX.Element {
           [gl],
           {
             toneMappingExposure: toneMappingIntensityDark,
-            ease: Expo.easeOut,
+            ease: 'expo.easeOut',
             duration: transitionDuration
           }
         )

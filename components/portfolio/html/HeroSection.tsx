@@ -16,12 +16,15 @@ export default function HeroSection(): JSX.Element {
         component='div'
         sx={{
           position: 'absolute',
-          bottom: '30%',
+          bottom: {
+            xs: '15%',
+            sm: '30%'
+          },
           left: '0',
           transition: 'color 2.5s'
         }}
       >
-        <Typography variant='h1' fontWeight='500' fontSize='5rem' textTransform='uppercase'
+        <Typography variant='h1' fontWeight='500' fontSize='4.6rem' textTransform='uppercase'
           sx={{
             textShadow: '2px 2px 0px rgba(0,0,0,0.2)'
           }}

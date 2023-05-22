@@ -13,7 +13,6 @@ export default function Page(): JSX.Element {
     sx={{
       zIndex: '0',
       width: '100%',
-      height: '100%',
       overflow: 'hidden',
       color: mode ? 'text.secondary' : 'text.primary'
     }}
