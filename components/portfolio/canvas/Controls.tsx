@@ -71,7 +71,9 @@ export default function Controls(): JSX.Element {
               invalidateOnRefresh: isDesktop
             },
             onReverseComplete: () => {
-
+              if(isDesktop) {
+                firstTimeline.invalidate()
+              }
             }
           }).to(
             pCamera.position,
@@ -132,7 +134,9 @@ export default function Controls(): JSX.Element {
               invalidateOnRefresh: isDesktop
             },
             onReverseComplete: () => {
-
+              if(isDesktop) {
+                secondTimeline.invalidate()
+              }
             }
           }).to(
             pCamera.position,
