@@ -138,8 +138,18 @@ export default function Controls(): JSX.Element {
                 secondTimeline.invalidate()
               }
             }
-          }).to(
+          }).fromTo(
             pCamera.position,
+            {
+              x: () => {
+                if(isDesktop) {
+                  const currentViewport = getViewport()
+                  return originalPCameraX - currentViewport.width * 0.25
+                }else {
+                  return originalPCameraX
+                }
+              }
+            },
             {
               x: () => {
                 if(isDesktop) {
@@ -151,8 +161,18 @@ export default function Controls(): JSX.Element {
               }
             },
             'same-second'
-          ).to(
+          ).fromTo(
             oCamera.position,
+            {
+              x: () => {
+                if(isDesktop) {
+                  const currentViewport = getViewport()
+                  return originalOCameraX - currentViewport.width * 0.002
+                }else {
+                  return originalOCameraX
+                }
+              }
+            },
             {
               x: () => {
                 if(isDesktop) {
