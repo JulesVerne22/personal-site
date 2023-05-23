@@ -9,7 +9,7 @@ export default function CustomizeScene(): JSX.Element {
       position: 'fixed',
       right: '1%',
       borderRadius: '25px',
-      zIndex: '1'
+      zIndex: '3'
     }}
   >
     <ModeSwitch />

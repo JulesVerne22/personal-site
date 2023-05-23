@@ -170,7 +170,7 @@ export default function Navbar(): JSX.Element {
           </Toolbar>
         </Container>
       </AppBar>
-      <Drawer anchor='top' open={drawerState} onClose={toggleDrawer(false)} hideBackdrop={true} sx={{ zIndex: '1' }}>
+      <Drawer anchor='top' open={drawerState} onClose={toggleDrawer(false)} hideBackdrop={true} sx={{ zIndex: '5' }}>
         <Box
           component='div'
           role='presentation'

@@ -1,18 +1,22 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
-import { PerspectiveCamera, OrthographicCamera, Group, Color } from 'three'
+import { PerspectiveCamera, OrthographicCamera, Group } from 'three'
 
 interface PortfolioState {
   oCamera: OrthographicCamera | undefined
   pCamera: PerspectiveCamera | undefined
   scene: Group | undefined
+  room: Group | undefined
   mode: boolean
   ledColor: string
+  orbitEnabled: boolean
   setOCamera: (oCamera: OrthographicCamera) => void
   setPCamera: (oCamera: PerspectiveCamera) => void
   setScene: (scene: Group) => void
+  setRoom: (room: Group) => void
   toggleMode: () => void
   setLEDColor: (color: string) => void
+  setOrbitEnabled: (orbit: boolean) => void
 }
 
 export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector((set) => {
@@ -20,8 +24,10 @@ export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector(
     oCamera: undefined,
     pCamera: undefined,
     scene: undefined,
+    room: undefined,
     mode: true,
     ledColor: '#00adb5',
+    orbitEnabled: false,
     setOCamera: (oCamera: OrthographicCamera) => {
       set(() => {
         return {
@@ -43,6 +49,13 @@ export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector(
         }
       })
     },
+    setRoom: (room: Group) => {
+      set(() => {
+        return {
+          room: room
+        }
+      })
+    },
     toggleMode: () => {
       set((state) => {
         return {
@@ -54,6 +67,13 @@ export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector(
       set(() => {
         return {
           ledColor: color
+        }
+      })
+    },
+    setOrbitEnabled: (orbit: boolean) => {
+      set(() => {
+        return {
+          orbitEnabled: orbit
         }
       })
     }

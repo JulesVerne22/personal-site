@@ -15,7 +15,8 @@ interface LoadedGLTF extends GLTF {
 }
 
 export default function Room(): JSX.Element {
-  const {setScene, ledColor, setLEDColor} = usePortfolioStore(state => ({
+  const {setRoom, setScene, ledColor, setLEDColor} = usePortfolioStore(state => ({
+    setRoom: state.setRoom,
     setScene: state.setScene,
     ledColor: state.ledColor,
     setLEDColor: state.setLEDColor
@@ -33,9 +34,9 @@ export default function Room(): JSX.Element {
     }
   }, { collapsed: true })
 
-  const room = useGLTF('/models/portfolioRoomRegrouped.glb', true) as LoadedGLTF
-  room.scene.rotation.y = -Math.PI / 4
-  room.scene.traverse((child) => {
+  const model = useGLTF('/models/portfolioRoomRegrouped.glb', true) as LoadedGLTF
+  model.scene.rotation.y = -Math.PI / 4
+  model.scene.traverse((child) => {
     child.castShadow = true
     child.receiveShadow = true
 
@@ -69,6 +70,7 @@ export default function Room(): JSX.Element {
   const lerpTarget = useRef<number>(0)
   const lerpEase = useRef<number>(0.1)
   const scene = useRef<Group>(null!)
+  const room = useRef<Group>(null!)
 
   useFrame(() => {
     lerpCurrent.current = gsap.utils.interpolate(
@@ -94,27 +96,30 @@ export default function Room(): JSX.Element {
 
   useEffect(() => {
     setScene(scene.current)
+    setRoom(room.current)
   }, [])
 
   return <group ref={scene} position-y={-0.5}>
-    <group scale={0.65}>
-      <primitive object={room.scene} />
+    <group ref={room}>
+      <group scale={0.65}>
+        <primitive object={model.scene} />
+      </group>
+      <Lights />
+      <mesh
+        name='shadow'
+        rotation-x={-Math.PI/2}
+        rotation-z={Math.PI/4}
+        position={[-0.65, -0.2, -0.7]}
+        scale={[1.1, 2, 1]}
+      >
+        <planeGeometry args={[2, 2]} />
+        <meshBasicMaterial
+          color='#000000'
+          opacity={0.15}
+          transparent
+        />
+      </mesh>
     </group>
-    <Lights />
-    <mesh
-      name='shadow'
-      rotation-x={-Math.PI/2}
-      rotation-z={Math.PI/4}
-      position={[-0.65, -0.2, -0.7]}
-      scale={[1.1, 2, 1]}
-    >
-      <planeGeometry args={[2, 2]} />
-      <meshBasicMaterial
-        color='#000000'
-        opacity={0.15}
-        transparent
-      />
-    </mesh>
   </group>
   
 }

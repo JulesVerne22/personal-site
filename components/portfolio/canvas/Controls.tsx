@@ -1,7 +1,7 @@
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLayoutEffect, useRef } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useThree } from '@react-three/fiber'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -9,10 +9,14 @@ gsap.registerPlugin(ScrollTrigger)
 export default function Controls(): JSX.Element {
   const {
     oCamera,
-    pCamera
+    pCamera,
+    room,
+    setOrbitEnabled
   } = usePortfolioStore(state => ({
     oCamera: state.oCamera,
-    pCamera: state.pCamera
+    pCamera: state.pCamera,
+    room: state.room,
+    setOrbitEnabled: state.setOrbitEnabled
   }))
 
   const {viewport, getViewport} = useThree(state => ({
@@ -29,6 +33,10 @@ export default function Controls(): JSX.Element {
         // Resets
         const originalOCameraX = oCamera.position.x
         const originalPCameraX = pCamera.position.x
+        const originalOCameraY = oCamera.position.y
+        const originalPCameraY = pCamera.position.y
+        const originalOCameraZ = oCamera.position.z
+        const originalPCameraZ = pCamera.position.z
         const originalOCameraZoom = oCamera.zoom = 1
         const originalPCameraZoom = pCamera.zoom = 1
 
@@ -46,7 +54,7 @@ export default function Controls(): JSX.Element {
           gsap.timeline({
             scrollTrigger: {
               trigger: '.hero-section',
-              start: 'top top',
+              start: 'top center',
               end: 'bottom bottom',
               invalidateOnRefresh: true
             }
@@ -54,12 +62,14 @@ export default function Controls(): JSX.Element {
             pCamera.position,
             {
               x: () => originalPCameraX
-            }
+            },
+            'same-hero'
           ).to(
             oCamera.position,
             {
               x: () => originalOCameraX
-            }
+            },
+            'same-hero'
           )
 
           const firstTimeline = gsap.timeline({
@@ -137,19 +147,9 @@ export default function Controls(): JSX.Element {
               if(isDesktop) {
                 secondTimeline.invalidate()
               }
-            }
-          }).fromTo(
-            pCamera.position,
-            {
-              x: () => {
-                if(isDesktop) {
-                  const currentViewport = getViewport()
-                  return originalPCameraX - currentViewport.width * 0.25
-                }else {
-                  return originalPCameraX
-                }
-              }
             },
+          }).to(
+            pCamera.position,
             {
               x: () => {
                 if(isDesktop) {
@@ -161,18 +161,8 @@ export default function Controls(): JSX.Element {
               }
             },
             'same-second'
-          ).fromTo(
+          ).to(
             oCamera.position,
-            {
-              x: () => {
-                if(isDesktop) {
-                  const currentViewport = getViewport()
-                  return originalOCameraX - currentViewport.width * 0.002
-                }else {
-                  return originalOCameraX
-                }
-              }
-            },
             {
               x: () => {
                 if(isDesktop) {
@@ -187,7 +177,7 @@ export default function Controls(): JSX.Element {
           ).to(
             pCamera,
             {
-              zoom: isMobile ? 1.0 : originalPCameraZoom,
+              zoom: isMobile ? 0.8 : originalPCameraZoom,
               onUpdate: () => {
                 if(isMobile) {
                   pCamera.updateProjectionMatrix()
@@ -198,7 +188,7 @@ export default function Controls(): JSX.Element {
           ).to(
             oCamera,
             {
-              zoom: isMobile ? 1.0 : originalOCameraZoom,
+              zoom: isMobile ? 0.8 : originalOCameraZoom,
               onUpdate: () => {
                 if(isMobile) {
                   oCamera.updateProjectionMatrix()
@@ -206,6 +196,73 @@ export default function Controls(): JSX.Element {
               }
             },
             'same-second'
+          )
+          
+          const thirdTimeline = gsap.timeline({
+            scrollTrigger: {
+              trigger: '.third-move',
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: 0.6,
+              invalidateOnRefresh: isDesktop,
+              onLeave: () => {
+                setOrbitEnabled(true)
+              },
+              onEnterBack: () => {
+                setOrbitEnabled(false)
+                oCamera.position.x = originalOCameraX
+                pCamera.position.x = originalPCameraX
+                oCamera.position.y = originalOCameraY
+                pCamera.position.y = originalPCameraY
+                oCamera.position.z = originalOCameraZ
+                pCamera.position.z = originalPCameraZ
+                oCamera.zoom = originalOCameraZoom
+                pCamera.zoom = originalPCameraZoom
+              }
+            },
+            onReverseComplete: () => {
+              if(isDesktop) {
+                thirdTimeline.invalidate()
+              }
+            }
+          }).to(
+            pCamera.position,
+            {
+              x: () => {
+                return originalPCameraX
+              }
+            },
+            'same-third'
+          ).to(
+            oCamera.position,
+            {
+              x: () => {
+                return originalOCameraX
+              }
+            },
+            'same-third'
+          ).to(
+            pCamera,
+            {
+              zoom: isMobile ? 1.0 : originalPCameraZoom,
+              onUpdate: () => {
+                if(isMobile) {
+                  pCamera.updateProjectionMatrix()
+                }
+              }
+            },
+            'same-third'
+          ).to(
+            oCamera,
+            {
+              zoom: isMobile ? 1.0 : originalOCameraZoom,
+              onUpdate: () => {
+                if(isMobile) {
+                  oCamera.updateProjectionMatrix()
+                }
+              }
+            },
+            'same-third'
           )
         })
       }else {
@@ -215,6 +272,8 @@ export default function Controls(): JSX.Element {
       }
     }
   }, [oCamera, pCamera, viewport])
+
+  // Rock wall camera -8, 3, -1.5
 
   return <></>
 }

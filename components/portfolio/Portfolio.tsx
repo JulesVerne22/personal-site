@@ -5,6 +5,7 @@ import { CineonToneMapping } from 'three'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Leva } from 'leva'
+import { usePortfolioStore } from '../../stores/usePortfolio'
 import Camera from './canvas/Camera'
 import World from './canvas/World'
 import Page from './html/Page'
@@ -12,6 +13,7 @@ import Page from './html/Page'
 export default function Portfolio(): JSX.Element {
   const [debug, setDebug] = useState<undefined | string | string[]>(undefined)
   const router = useRouter()
+  const orbitEnabled = usePortfolioStore(state => state.orbitEnabled)
 
   useEffect(() => {
     if(router.isReady) {
@@ -29,7 +31,8 @@ export default function Portfolio(): JSX.Element {
         position: 'fixed',
         width: '100svw',
         height: '100svh',
-        top: 0
+        top: 0,
+        zIndex: 1
       }}
     >
       <Canvas
@@ -43,7 +46,12 @@ export default function Portfolio(): JSX.Element {
         }}
       >
         <OrbitControls
-          enabled={false}
+          enableZoom={false}
+          enablePan={false}
+          enabled={orbitEnabled}
+          maxAzimuthAngle={Math.PI / 4}
+          minAzimuthAngle={-Math.PI * 0.75}
+          maxPolarAngle={Math.PI / 2}
         />
         <Camera />
 

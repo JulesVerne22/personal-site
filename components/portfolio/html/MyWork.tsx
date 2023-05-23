@@ -44,7 +44,9 @@ export default function MyWork(props: {
       margin: 0,
       backgroundColor: props.background,
       marginLeft: 'auto',
-      transition: 'background-color 0.5s, color 0.5s'
+      transition: 'background-color 0.5s, color 0.5s',
+      position: 'relative',
+      zIndex: '2'
     }}
   >
     <Box
