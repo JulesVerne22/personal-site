@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 
 export default function HeroSection(): JSX.Element {
-  return <Box component='div' sx={{ width: '100vw', height: '100svh' }}>
+  return <Box className='hero-section' component='div' sx={{ width: '100vw', height: '100svh' }}>
     <Box
       component='div'
       sx={{
