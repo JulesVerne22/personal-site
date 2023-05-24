@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
 import { PerspectiveCamera, OrthographicCamera, Group } from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 interface PortfolioState {
   oCamera: OrthographicCamera | undefined
@@ -9,14 +10,12 @@ interface PortfolioState {
   room: Group | undefined
   mode: boolean
   ledColor: string
-  orbitEnabled: boolean
   setOCamera: (oCamera: OrthographicCamera) => void
   setPCamera: (oCamera: PerspectiveCamera) => void
   setScene: (scene: Group) => void
   setRoom: (room: Group) => void
   toggleMode: () => void
   setLEDColor: (color: string) => void
-  setOrbitEnabled: (orbit: boolean) => void
 }
 
 export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector((set) => {
@@ -27,7 +26,6 @@ export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector(
     room: undefined,
     mode: true,
     ledColor: '#00adb5',
-    orbitEnabled: false,
     setOCamera: (oCamera: OrthographicCamera) => {
       set(() => {
         return {
@@ -67,13 +65,6 @@ export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector(
       set(() => {
         return {
           ledColor: color
-        }
-      })
-    },
-    setOrbitEnabled: (orbit: boolean) => {
-      set(() => {
-        return {
-          orbitEnabled: orbit
         }
       })
     }

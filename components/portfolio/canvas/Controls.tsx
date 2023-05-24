@@ -2,21 +2,22 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useLayoutEffect, useRef } from 'react'
 import { useThree } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import { OrbitControls as OC } from 'three-stdlib'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function Controls(): JSX.Element {
+  const orbitControls = useRef<OC>(null!)
   const {
     oCamera,
     pCamera,
-    room,
-    setOrbitEnabled
+    room
   } = usePortfolioStore(state => ({
     oCamera: state.oCamera,
     pCamera: state.pCamera,
-    room: state.room,
-    setOrbitEnabled: state.setOrbitEnabled
+    room: state.room
   }))
 
   const {viewport, getViewport} = useThree(state => ({
@@ -26,7 +27,7 @@ export default function Controls(): JSX.Element {
   const animation = useRef<any>(null)
   
   useLayoutEffect(() => {
-    if(typeof oCamera !== 'undefined' && typeof pCamera !== 'undefined') {
+    if(typeof oCamera !== 'undefined' && typeof pCamera !== 'undefined' && orbitControls.current) {
       if(animation.current === null) {
         let mm = gsap.matchMedia()
 
@@ -206,10 +207,12 @@ export default function Controls(): JSX.Element {
               scrub: 0.6,
               invalidateOnRefresh: isDesktop,
               onLeave: () => {
-                setOrbitEnabled(true)
+                orbitControls.current.enabled = true
+                orbitControls.current.saveState()
               },
               onEnterBack: () => {
-                setOrbitEnabled(false)
+                orbitControls.current.reset()
+                orbitControls.current.enabled = false
                 oCamera.position.x = originalOCameraX
                 pCamera.position.x = originalPCameraX
                 oCamera.position.y = originalOCameraY
@@ -275,5 +278,15 @@ export default function Controls(): JSX.Element {
 
   // Rock wall camera -8, 3, -1.5
 
-  return <></>
+  return <>
+    <OrbitControls
+      ref={orbitControls}
+      enableZoom={true}
+      enablePan={true}
+      enabled={false}
+      maxAzimuthAngle={Math.PI / 4}
+      minAzimuthAngle={-Math.PI * 0.75}
+      maxPolarAngle={Math.PI / 2}
+    />
+  </>
 }

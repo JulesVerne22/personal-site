@@ -29,7 +29,11 @@ export default function Page(): JSX.Element {
 
       <MyWork background={mode ? 'text.primary' : 'text.secondary'} />
 
-      <Box className='third-move' component='div' sx={{ height: '3000px', width: '100%' }} />
+      <Box
+        className='third-move'
+        component='div'
+        sx={{ height: '3000px', width: '100%', position: 'relative', zIndex: '2' }}
+      />
       
       <Box component='div' sx={{ height: '100svh', width: '100%' }}>
         <Box
