@@ -4,6 +4,7 @@ import { CineonToneMapping } from 'three'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { Leva } from 'leva'
+import { Perf } from 'r3f-perf'
 import Camera from './canvas/Camera'
 import World from './canvas/World'
 import Page from './html/Page'
@@ -27,7 +28,7 @@ export default function Portfolio(): JSX.Element {
       component='div'
       sx={{
         position: 'fixed',
-        width: '100svw',
+        width: '100%',
         height: '100svh',
         top: 0,
         zIndex: 1
@@ -43,6 +44,11 @@ export default function Portfolio(): JSX.Element {
           state.gl.toneMappingExposure = 0.2
         }}
       >
+        {typeof debug === 'undefined' ?
+          null
+        :
+          <Perf matrixUpdate position='bottom-left' />
+        }
         <Camera />
         <Controls />
         <World />

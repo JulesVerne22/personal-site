@@ -15,7 +15,7 @@ const TitleArt = styled(Box)<BoxProps>(({ theme }) => ({
   transformOrigin: 'left'
 }))
 
-const Title = styled(Typography)<TypographyProps>(({ theme }) => ({
+const Title = styled(Typography)<TypographyProps>(() => ({
   variant: 'h3',
   fontWeight: '700',
   fontSize: '1.5rem',
@@ -23,7 +23,7 @@ const Title = styled(Typography)<TypographyProps>(({ theme }) => ({
   marginTop: '64px'
 }))
 
-const Content = styled(Typography)<TypographyProps>(({ theme }) => ({
+const Content = styled(Typography)<TypographyProps>(() => ({
   variant: 'body1',
   fontSize: '1.25rem',
   lineHeight: '2',
@@ -91,22 +91,37 @@ export default function AboutMe(props: {
 
     <Box component='div' sx={{ position: 'relative', padding: '20% 5%' }}>
       <Title>
-        Lorem Ipsum
+        The Start Of My Journey
       </Title>
       <Content>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo voluptatibus, quod neque totam temporibus velit molestiae vitae et incidunt eos distinctio animi tenetur ut. Voluptatum, dolorem sunt. Totam, numquam exercitationem!
+        I grew up in small town Pennsylvania. Although there wasn&apos;t much 
+        engineering in my area, I was always fascinated with figuring out
+        how things worked. I grew to love technology and taught myself how to 
+        code in Java and create games in Unity. Upon graduating high school,
+        I went to Colorado Springs to further my education. 
       </Content>
       <Title>
-        Lorem Ipsum
+        Education
       </Title>
       <Content>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo voluptatibus, quod neque totam temporibus velit molestiae vitae et incidunt eos distinctio animi tenetur ut. Voluptatum, dolorem sunt. Totam, numquam exercitationem!
+        I attended the University of Colorado to get my bachelors degree in 
+        computer engineering. I learned about both the hardware and software 
+        side of computers along with getting my minor in mathematics. While in 
+        school, I was able to participate in two amazing internships with 
+        Tesla and MITRE. I now reside in Omaha, NE with my beautiful wife and 
+        will be starting my Masters in Computer Science this fall at Georgia 
+        Tech.
       </Content>
       <Title>
-        Lorem Ipsum
+        Hobbies
       </Title>
       <Content >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo voluptatibus, quod neque totam temporibus velit molestiae vitae et incidunt eos distinctio animi tenetur ut. Voluptatum, dolorem sunt. Totam, numquam exercitationem!
+        In my free time, I like to rock climb, learn new coding techniques and 
+        languages, and play games online with my friends and family. I&apos;ve 
+        recently climbed my first v7! I finished a ThreeJS course which I used 
+        to create the cool model on this page. And I&apos;m playing through 
+        Divinity Original Sin 2 with a couple of my friends right now while 
+        building my own DnD campaign with my younger brother.
       </Content>
     </Box>
   </Box>

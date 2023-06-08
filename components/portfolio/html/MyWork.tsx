@@ -15,7 +15,7 @@ const TitleArt = styled(Box)<BoxProps>(({ theme }) => ({
   transformOrigin: 'left'
 }))
 
-const Title = styled(Typography)<TypographyProps>(({ theme }) => ({
+const Title = styled(Typography)<TypographyProps>(() => ({
   variant: 'h3',
   fontWeight: '700',
   fontSize: '1.5rem',
@@ -23,7 +23,7 @@ const Title = styled(Typography)<TypographyProps>(({ theme }) => ({
   marginTop: '64px'
 }))
 
-const Content = styled(Typography)<TypographyProps>(({ theme }) => ({
+const Content = styled(Typography)<TypographyProps>(() => ({
   variant: 'body1',
   fontSize: '1.25rem',
   lineHeight: '2',
@@ -91,22 +91,41 @@ export default function MyWork(props: {
 
     <Box component='div' sx={{ position: 'relative', padding: '20% 5%' }}>
       <Title>
-        Lorem Ipsum
+        Tesla Intern
       </Title>
       <Content>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo voluptatibus, quod neque totam temporibus velit molestiae vitae et incidunt eos distinctio animi tenetur ut. Voluptatum, dolorem sunt. Totam, numquam exercitationem!
+        At Tesla, I was a silicon validation engineer. However, my team needed 
+        a devops engineer, so that is what I became. They needed to convert 
+        their test suite to be more scalable and portable, so I taught myself 
+        Docker and Ansible to containerize their suite and automatically 
+        deploy/update/destroy it on as many systems as necessary. I also wrote 
+        several tests in Python that were added to the testing suite.
       </Content>
       <Title>
-        Lorem Ipsum
+        MITRE Internship
       </Title>
       <Content>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo voluptatibus, quod neque totam temporibus velit molestiae vitae et incidunt eos distinctio animi tenetur ut. Voluptatum, dolorem sunt. Totam, numquam exercitationem!
+        MITRE hired me as a software engineering intern, and allowed me to 
+        increase my knowledge of devops. I created a portable development 
+        platform in AWS EKS using Terraform as IaC. The platform offered teams 
+        automatically generated accounts, Kubernetes environments, access 
+        to a pipelining tool called Concourse with custom made templates, and a 
+        monitoring solution called Grafana. Upon completing my internship, my 
+        prototype was put into production and is still being run today.
       </Content>
       <Title>
-        Lorem Ipsum
+        MITRE Full-Time
       </Title>
       <Content >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo voluptatibus, quod neque totam temporibus velit molestiae vitae et incidunt eos distinctio animi tenetur ut. Voluptatum, dolorem sunt. Totam, numquam exercitationem!
+        MITRE was so impressed with my performance as an intern that they hired 
+        me directly into a Level 2 position as an intermediate software engineer. 
+        My next projects allowed me to actually use the platform I had created 
+        and develop several internal websites to be hosted on Kubernetes. I 
+        developed 3 React applications. An internal documentation search that 
+        indexed multiple documentation sites into a single searchable registry, 
+        a schema site for searching and viewing schema data in a tree format, 
+        and a landing site for my division that showcased our products and 
+        services.
       </Content>
     </Box>
   </Box>

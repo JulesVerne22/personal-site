@@ -1,4 +1,5 @@
 import { Box, Typography } from '@mui/material'
+import DownArrow from '@mui/icons-material/KeyboardArrowDown'
 
 export default function HeroSection(): JSX.Element {
   return <Box
@@ -6,7 +7,7 @@ export default function HeroSection(): JSX.Element {
     component='div'
     sx={{
       position: 'relative',
-      width: '100vw',
+      width: '100%',
       height: '100svh',
       zIndex: 2
     }}
@@ -47,6 +48,24 @@ export default function HeroSection(): JSX.Element {
         >
           Full Stack Developer | DevOps Engineer
         </Typography>
+      </Box>
+      <Box
+        component='div'
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          position: 'absolute',
+          bottom: '12%',
+          width: '100%',
+          transition: 'color 2.5s'
+        }}
+      >
+        <Typography variant='body1' fontSize='1rem'>
+          scroll
+        </Typography>
+        <Box component='div' position='absolute' top='10px'>
+          <DownArrow fontSize='large' />        
+        </Box>
       </Box>
     </Box>
   </Box>
