@@ -1,7 +1,7 @@
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Mesh, MeshPhysicalMaterial, MeshStandardMaterial, MeshBasicMaterial, Group } from 'three'
-import type { GLTF } from 'three-stdlib'
+import { GLTF } from 'three-stdlib'
 import { useControls } from 'leva'
 import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
@@ -15,9 +15,7 @@ interface LoadedGLTF extends GLTF {
 }
 
 export default function Room(): JSX.Element {
-  const {setRoom, setScene, ledColor, setLEDColor} = usePortfolioStore(state => ({
-    setRoom: state.setRoom,
-    setScene: state.setScene,
+  const { ledColor, setLEDColor} = usePortfolioStore(state => ({
     ledColor: state.ledColor,
     setLEDColor: state.setLEDColor
   }))
@@ -92,11 +90,6 @@ export default function Room(): JSX.Element {
     return () => {
       window.removeEventListener('mousemove', trackMouse)
     }
-  }, [])
-
-  useEffect(() => {
-    setScene(scene.current)
-    setRoom(room.current)
   }, [])
 
   return <group ref={scene} position-y={-0.5}>

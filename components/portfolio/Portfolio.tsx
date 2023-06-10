@@ -8,7 +8,6 @@ import { Perf } from 'r3f-perf'
 import Camera from './canvas/Camera'
 import World from './canvas/World'
 import Page from './html/Page'
-import Controls from './canvas/Controls'
 
 export default function Portfolio(): JSX.Element {
   const [debug, setDebug] = useState<undefined | string | string[]>(undefined)
@@ -50,7 +49,6 @@ export default function Portfolio(): JSX.Element {
           <Perf matrixUpdate position='bottom-left' />
         }
         <Camera />
-        <Controls />
         <World />
       </Canvas>
     </Box>
