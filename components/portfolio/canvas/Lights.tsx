@@ -1,7 +1,7 @@
 import { useHelper } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
-import { PointLight, SpotLight, PointLightHelper, SpotLightHelper, Color } from 'three'
-import { useRef, useEffect } from 'react'
+import { PointLight, SpotLight, DirectionalLight, PointLightHelper, SpotLightHelper, Color, DirectionalLightHelper } from 'three'
+import { useRef, useLayoutEffect } from 'react'
 import { useControls, folder } from 'leva'
 import { gsap } from 'gsap'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
@@ -15,6 +15,8 @@ export default function Lights(): JSX.Element {
     spotLightIntensityLight,
     pointLightLight,
     pointLightPowerLight,
+    directionalIntensityLight,
+    directionalIntensityDark,
     toneMappingIntensityLight,
     spotLightDark,
     spotLightIntensityDark,
@@ -28,10 +30,11 @@ export default function Lights(): JSX.Element {
     rockWallLightHelper: { value: false },
     transitionDuration: { value: 0.5 },
     'Light Mode': folder({
-      spotLightLight: { value: {r: 255, g: 247, b: 218}},
+      spotLightLight: { value: { r: 255, g: 247, b: 218 } },
       spotLightIntensityLight: { value: 5 },
-      pointLightLight: { value: {r: 255, g: 249, b: 252}},
+      pointLightLight: { value: { r: 255, g: 249, b: 252 } },
       pointLightPowerLight: { value: 625 },
+      directionalIntensityLight: { value: 4 },
       toneMappingIntensityLight: {
         value: 0.2,
         min: 0,
@@ -39,10 +42,11 @@ export default function Lights(): JSX.Element {
       }
     }),
     'Dark Mode': folder({
-      spotLightDark: { value: {r: 255, g: 255, b: 255}},
+      spotLightDark: { value: { r: 255, g: 255, b: 255 } },
       spotLightIntensityDark: { value: 5 },
-      pointLightDark: { value: {r: 8, g: 33, b: 190}},
+      pointLightDark: { value: { r: 8, g: 33, b: 190 } },
       pointLightPowerDark: { value: 2500 },
+      directionalIntensityDark: { value: 16 },
       toneMappingIntensityDark: {
         value: 0.05,
         min: 0,
@@ -50,116 +54,121 @@ export default function Lights(): JSX.Element {
       }
     })
   }, { collapsed: true })
-  
+
   const sLight = useRef<SpotLight>(null!)
   const pLight = useRef<PointLight>(null!)
-  const pLight2 = useRef<PointLight>(null!)
+  const directionalLight = useRef<DirectionalLight>(null!)
   useHelper(spotLightHelper && sLight, SpotLightHelper)
   useHelper(officeLightHelper && pLight, PointLightHelper)
-  useHelper(rockWallLightHelper && pLight2, PointLightHelper)
+  useHelper(rockWallLightHelper && directionalLight, DirectionalLightHelper)
 
   const mode = usePortfolioStore(state => state.mode)
   const gl = useThree(state => state.gl)
 
-  useEffect(() => {
-    if(pLight.current && pLight2.current && sLight.current) {
-      if(mode) {
-        gsap.to(
-          [pLight.current.color, pLight2.current.color],
-          {
-            r: pointLightLight.r / 255,
-            g: pointLightLight.g / 255,
-            b: pointLightLight.b / 255,
-            duration: transitionDuration
-          }
-        )
-        gsap.to(
-          [pLight.current, pLight2.current],
-          {
-            power: pointLightPowerLight,
-            duration: transitionDuration
-          }
-        )
-        gsap.to(
-          [sLight.current.color],
-          {
-            r: spotLightLight.r / 255,
-            g: spotLightLight.g / 255,
-            b: spotLightLight.b / 255,
-            duration: transitionDuration
-          }
-        )
-        gsap.to(
-          [sLight.current],
-          {
-            intensity: spotLightIntensityLight,
-            duration: transitionDuration
-          }
-        )
-        gsap.to(
-          [gl],
-          {
-            toneMappingExposure: toneMappingIntensityLight,
-            ease: 'sine.easeIn',
-            duration: transitionDuration
-          }
-        )
-      }else {
-        gsap.to(
-          [pLight.current.color, pLight2.current.color],
-          {
-            r: pointLightDark.r / 255,
-            g: pointLightDark.g / 255,
-            b: pointLightDark.b / 255,
-            duration: transitionDuration
-          }
-        )
-        gsap.to(
-          [pLight.current, pLight2.current],
-          {
-            power: pointLightPowerDark,
-            duration: transitionDuration
-          }
-        )
-        gsap.to(
-          [sLight.current.color],
-          {
-            r: spotLightDark.r / 255,
-            g: spotLightDark.g / 255,
-            b: spotLightDark.b / 255,
-            duration: transitionDuration
-          }
-        )
-        gsap.to(
-          [sLight.current],
-          {
-            intensity: spotLightIntensityDark,
-            duration: transitionDuration
-          }
-        )
-        gsap.to(
-          [gl],
-          {
-            toneMappingExposure: toneMappingIntensityDark,
-            ease: 'expo.easeOut',
-            duration: transitionDuration
-          }
-        )
-      }
+  useLayoutEffect(() => {
+    if (mode) {
+      gsap.to(
+        [pLight.current.color, directionalLight.current.color],
+        {
+          r: pointLightLight.r / 255,
+          g: pointLightLight.g / 255,
+          b: pointLightLight.b / 255,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [pLight.current],
+        {
+          power: pointLightPowerLight,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [directionalLight.current],
+        {
+          intensity: directionalIntensityLight,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [sLight.current.color],
+        {
+          r: spotLightLight.r / 255,
+          g: spotLightLight.g / 255,
+          b: spotLightLight.b / 255,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [sLight.current],
+        {
+          intensity: spotLightIntensityLight,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [gl],
+        {
+          toneMappingExposure: toneMappingIntensityLight,
+          ease: 'sine.easeIn',
+          duration: transitionDuration
+        }
+      )
+    } else {
+      gsap.to(
+        [pLight.current.color, directionalLight.current.color],
+        {
+          r: pointLightDark.r / 255,
+          g: pointLightDark.g / 255,
+          b: pointLightDark.b / 255,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [pLight.current],
+        {
+          power: pointLightPowerDark,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [directionalLight.current],
+        {
+          intensity: directionalIntensityDark,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [sLight.current.color],
+        {
+          r: spotLightDark.r / 255,
+          g: spotLightDark.g / 255,
+          b: spotLightDark.b / 255,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [sLight.current],
+        {
+          intensity: spotLightIntensityDark,
+          duration: transitionDuration
+        }
+      )
+      gsap.to(
+        [gl],
+        {
+          toneMappingExposure: toneMappingIntensityDark,
+          ease: 'expo.easeOut',
+          duration: transitionDuration
+        }
+      )
     }
-  }, [
-    mode,
-    pointLightLight,
-    pointLightDark,
-    spotLightLight,
-    spotLightDark,
-    toneMappingIntensityLight,
-    toneMappingIntensityDark,
-    pointLightPowerLight,
-    pointLightPowerDark,
-    spotLightIntensityLight,
-    spotLightIntensityDark
-  ])
+  }, [mode])
+
+  useLayoutEffect(() => {
+    directionalLight.current.target.position.set(-0.75, 0, -1.25)
+    directionalLight.current.target.updateMatrixWorld()
+  }, [])
 
   return <>
     <spotLight
@@ -211,8 +220,8 @@ export default function Lights(): JSX.Element {
       distance={8.5}
       decay={11.2}
     />
-    <pointLight
-      ref={pLight2}
+    <directionalLight
+      ref={directionalLight}
       color={mode ?
         new Color(
           pointLightLight.r / 255,
@@ -226,14 +235,11 @@ export default function Lights(): JSX.Element {
           pointLightDark.b / 255
         )
       }
-      power={mode ? pointLightPowerLight : pointLightPowerDark}
+      intensity={mode ? directionalIntensityLight : directionalIntensityDark}
       castShadow
       position={[-1.5, 1.5, -2.5]}
-      shadow-camera-far={20}
       shadow-mapSize={[2048, 2048]}
-      shadow-normalBias={0.005}
-      distance={4}
-      decay={6.5}
+      shadow-normalBias={0.01}
     />
   </>
 }

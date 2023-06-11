@@ -114,7 +114,6 @@ export default function Room(): JSX.Element {
       </mesh>
     </group>
   </group>
-  
 }
 
 useGLTF.preload('/models/portfolioRoom.glb', true)
