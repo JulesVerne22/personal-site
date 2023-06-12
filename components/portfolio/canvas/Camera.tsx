@@ -154,10 +154,13 @@ export default function Camera(): JSX.Element {
           x: () => {
             if (isDesktop) {
               const currentViewport = getViewport()
-              return originalPCameraX + currentViewport.width * 0.25
+              return (originalPCameraX + currentViewport.width * 0.25) - 2
             } else {
               return originalPCameraX
             }
+          },
+          z: () => {
+            return originalPCameraZ
           }
         },
         'same-second'
@@ -232,6 +235,12 @@ export default function Camera(): JSX.Element {
         {
           x: () => {
             return originalPCameraX
+          },
+          y: () => {
+            return originalPCameraY
+          },
+          z: () => {
+            return originalPCameraZ
           }
         },
         'same-third'
