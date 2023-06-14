@@ -1,7 +1,7 @@
 import { useHelper } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import { PointLight, SpotLight, DirectionalLight, PointLightHelper, SpotLightHelper, Color, DirectionalLightHelper } from 'three'
-import { useRef, useLayoutEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { useControls, folder } from 'leva'
 import { gsap } from 'gsap'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
@@ -65,107 +65,113 @@ export default function Lights(): JSX.Element {
   const mode = usePortfolioStore(state => state.mode)
   const gl = useThree(state => state.gl)
 
-  useLayoutEffect(() => {
-    if (mode) {
-      gsap.to(
-        [pLight.current.color, directionalLight.current.color],
-        {
-          r: pointLightLight.r / 255,
-          g: pointLightLight.g / 255,
-          b: pointLightLight.b / 255,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [pLight.current],
-        {
-          power: pointLightPowerLight,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [directionalLight.current],
-        {
-          intensity: directionalIntensityLight,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [sLight.current.color],
-        {
-          r: spotLightLight.r / 255,
-          g: spotLightLight.g / 255,
-          b: spotLightLight.b / 255,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [sLight.current],
-        {
-          intensity: spotLightIntensityLight,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [gl],
-        {
-          toneMappingExposure: toneMappingIntensityLight,
-          ease: 'sine.easeIn',
-          duration: transitionDuration
-        }
-      )
-    } else {
-      gsap.to(
-        [pLight.current.color, directionalLight.current.color],
-        {
-          r: pointLightDark.r / 255,
-          g: pointLightDark.g / 255,
-          b: pointLightDark.b / 255,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [pLight.current],
-        {
-          power: pointLightPowerDark,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [directionalLight.current],
-        {
-          intensity: directionalIntensityDark,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [sLight.current.color],
-        {
-          r: spotLightDark.r / 255,
-          g: spotLightDark.g / 255,
-          b: spotLightDark.b / 255,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [sLight.current],
-        {
-          intensity: spotLightIntensityDark,
-          duration: transitionDuration
-        }
-      )
-      gsap.to(
-        [gl],
-        {
-          toneMappingExposure: toneMappingIntensityDark,
-          ease: 'expo.easeOut',
-          duration: transitionDuration
-        }
-      )
+  useEffect(() => {
+    let ctx = gsap.context(() => {
+      if (mode) {
+        gsap.to(
+          [pLight.current.color, directionalLight.current.color],
+          {
+            r: pointLightLight.r / 255,
+            g: pointLightLight.g / 255,
+            b: pointLightLight.b / 255,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [pLight.current],
+          {
+            power: pointLightPowerLight,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [directionalLight.current],
+          {
+            intensity: directionalIntensityLight,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [sLight.current.color],
+          {
+            r: spotLightLight.r / 255,
+            g: spotLightLight.g / 255,
+            b: spotLightLight.b / 255,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [sLight.current],
+          {
+            intensity: spotLightIntensityLight,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [gl],
+          {
+            toneMappingExposure: toneMappingIntensityLight,
+            ease: 'sine.easeIn',
+            duration: transitionDuration
+          }
+        )
+      } else {
+        gsap.to(
+          [pLight.current.color, directionalLight.current.color],
+          {
+            r: pointLightDark.r / 255,
+            g: pointLightDark.g / 255,
+            b: pointLightDark.b / 255,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [pLight.current],
+          {
+            power: pointLightPowerDark,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [directionalLight.current],
+          {
+            intensity: directionalIntensityDark,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [sLight.current.color],
+          {
+            r: spotLightDark.r / 255,
+            g: spotLightDark.g / 255,
+            b: spotLightDark.b / 255,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [sLight.current],
+          {
+            intensity: spotLightIntensityDark,
+            duration: transitionDuration
+          }
+        )
+        gsap.to(
+          [gl],
+          {
+            toneMappingExposure: toneMappingIntensityDark,
+            ease: 'expo.easeOut',
+            duration: transitionDuration
+          }
+        )
+      }
+    })
+
+    return () => {
+      ctx.revert()
     }
   }, [mode])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     directionalLight.current.target.position.set(-0.75, 0, -1.25)
     directionalLight.current.target.updateMatrixWorld()
   }, [])

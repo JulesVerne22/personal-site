@@ -1,6 +1,7 @@
 import Box, { BoxProps } from '@mui/material/Box'
 import Typography, { TypographyProps } from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
+import ProgressBar from './ProgressBar'
 
 const TitleArt = styled(Box)<BoxProps>(({ theme }) => ({
   component: 'div',
@@ -35,6 +36,7 @@ export default function MyWork(props: {
 }): JSX.Element {
   return <Box
     component='div'
+    className='my-work'
     sx={{
       width: {
         xs: '100%',
@@ -44,11 +46,14 @@ export default function MyWork(props: {
       margin: 0,
       backgroundColor: props.background,
       marginLeft: 'auto',
+      borderTopLeftRadius: '700px 700px',
+      overflow: 'hidden',
       transition: 'background-color 0.5s, color 0.5s',
       position: 'relative',
       zIndex: '2'
     }}
   >
+    <ProgressBar side='right' section='my-work' />
     <Box
       component='div'
       sx={{

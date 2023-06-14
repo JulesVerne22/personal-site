@@ -5,7 +5,7 @@ import { OrbitControls } from '@react-three/drei'
 import { OrbitControls as OC } from 'three-stdlib'
 import { OrthographicCamera, PerspectiveCamera } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
-import { useLayoutEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { OrthographicCamera as oCamera, PerspectiveCamera as pCamera } from 'three'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -28,7 +28,7 @@ export default function Camera(): JSX.Element {
     getViewport: state.viewport.getCurrentViewport
   }))
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let mm = gsap.matchMedia()
 
     // Resets
@@ -276,9 +276,11 @@ export default function Camera(): JSX.Element {
         'same-third'
       )
     })
-  }, [getViewport])
 
-  // Rock wall camera -8, 3, -1.5
+    return () => {
+      mm.revert()
+    }
+  }, [getViewport])
 
   return <>
     <OrthographicCamera
@@ -307,7 +309,7 @@ export default function Camera(): JSX.Element {
     />
     <OrbitControls
       ref={orbitControls}
-      enableZoom={true}
+      enableZoom={false}
       enablePan={true}
       enabled={false}
       maxAzimuthAngle={Math.PI / 4}

@@ -6,7 +6,7 @@ import { usePortfolioStore } from '../stores/usePortfolio'
 import Portfolio from '../components/portfolio/Portfolio'
 
 export default function Home(): JSX.Element {
-  const {backgroundDark, backgroundLight} = useControls('Environment', {
+  const { backgroundDark, backgroundLight } = useControls('Environment', {
     backgroundDark: '#2c3269',
     backgroundLight: '#599da0'
   }, { collapsed: true })
@@ -14,16 +14,22 @@ export default function Home(): JSX.Element {
   const homePage = useRef<HTMLDivElement>(null!)
 
   useEffect(() => {
-    if(homePage) {
-      if(mode) {
-        gsap.to(homePage.current, {
-          backgroundColor: backgroundLight
-        })
-      }else {
-        gsap.to(homePage.current, {
-          backgroundColor: backgroundDark
-        })
+    let ctx = gsap.context(() => {
+      if (homePage) {
+        if (mode) {
+          gsap.to(homePage.current, {
+            backgroundColor: backgroundLight
+          })
+        } else {
+          gsap.to(homePage.current, {
+            backgroundColor: backgroundDark
+          })
+        }
       }
+    })
+
+    return () => {
+      ctx.revert()
     }
   }, [mode, backgroundLight, backgroundDark, homePage])
 

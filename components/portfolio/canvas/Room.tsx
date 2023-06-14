@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { Mesh, MeshPhysicalMaterial, MeshStandardMaterial, MeshBasicMaterial, Group } from 'three'
 import { GLTF } from 'three-stdlib'
 import { useControls } from 'leva'
-import { useRef, useEffect, useLayoutEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lights from './Lights'
@@ -92,6 +92,7 @@ export default function Room(): JSX.Element {
   const lerpEase = useRef<number>(0.1)
   const scene = useRef<Group>(null!)
   const room = useRef<Group>(null!)
+  const shadow = useRef<Mesh>(null!)
   const modelRef = useRef<LoadedGLTF>(null!)
   modelRef.current = model
 
@@ -117,7 +118,7 @@ export default function Room(): JSX.Element {
     }
   }, [])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     let mm = gsap.matchMedia()
 
     mm.add({
@@ -183,120 +184,139 @@ export default function Room(): JSX.Element {
         },
         'same-third'
       )
+
+      const secondRoomTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.second-move',
+          start: 'center center'
+        }
+      }).to(
+        shadow.current.scale,
+        {
+          y: 2.0275,
+          duration: 0.3
+        },
+        'structure2'
+      ).to(
+        shadow.current.position,
+        {
+          x: -0.7,
+          z: -0.75,
+          duration: 0.3
+        },
+        'structure2'
+      )
+
+      let enterStructure2: any
+      let enterClimbingWall: any
+      let enterBench: any
+      let enterRedHolds: any
+      let enterBlueHolds: any
+      let enterOrangeHolds: any
+      let enterPurpleHolds: any
+      let enterGreenHolds: any
+      modelRef.current.scene.traverse((child) => {
+        if (child.name === 'Structure2') {
+          enterStructure2 = gsap.to(
+            child.scale,
+            {
+              x: 1,
+              duration: 0.3
+            }
+          )
+        } else if (child.name === 'ClimbingWall') {
+          enterClimbingWall = gsap.to(
+            child.scale,
+            {
+              x: 1,
+              y: 1,
+              z: 1,
+              duration: 0.3,
+              ease: 'back.out(2)'
+            }
+          )
+        } else if (child.name === 'Bench') {
+          enterBench = gsap.to(
+            child.scale,
+            {
+              x: 1,
+              y: 1,
+              z: 1,
+              duration: 0.3,
+              ease: 'back.out(2)'
+            }
+          )
+        } else if (child.name === 'OrangeHolds') {
+          enterOrangeHolds = gsap.to(
+            child.scale,
+            {
+              x: 1,
+              y: 1,
+              z: 1,
+              duration: 0.3,
+              ease: 'back.out(2)'
+            }
+          )
+        } else if (child.name === 'RedHolds') {
+          enterRedHolds = gsap.to(
+            child.scale,
+            {
+              x: 1,
+              y: 1,
+              z: 1,
+              duration: 0.3,
+              ease: 'back.out(2)'
+            }
+          )
+        } else if (child.name === 'PurpleHolds') {
+          enterPurpleHolds = gsap.to(
+            child.scale,
+            {
+              x: 1,
+              y: 1,
+              z: 1,
+              duration: 0.3,
+              ease: 'back.out(2)'
+            }
+          )
+        } else if (child.name === 'BlueHolds') {
+          enterBlueHolds = gsap.to(
+            child.scale,
+            {
+              x: 1,
+              y: 1,
+              z: 1,
+              duration: 0.3,
+              ease: 'back.out(2)'
+            }
+          )
+        } else if (child.name === 'GreenHolds') {
+          enterGreenHolds = gsap.to(
+            child.scale,
+            {
+              x: 1,
+              y: 1,
+              z: 1,
+              duration: 0.3,
+              ease: 'back.out(2)'
+            }
+          )
+        }
+      })
+
+      secondRoomTimeline.add(enterStructure2, 'structure2')
+      secondRoomTimeline.add(enterClimbingWall, 'bench-and-wall')
+      secondRoomTimeline.add(enterBench, 'bench-and-wall')
+      secondRoomTimeline.add(enterOrangeHolds, '-=0.1')
+      secondRoomTimeline.add(enterRedHolds, '-=0.1')
+      secondRoomTimeline.add(enterPurpleHolds, '-=0.1')
+      secondRoomTimeline.add(enterBlueHolds, '-=0.1')
+      secondRoomTimeline.add(enterGreenHolds, '-=0.1')
     })
 
-    const secondRoomTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.second-move',
-        start: 'center center'
-      }
-    })
-
-    let enterStructure2: any
-    let enterClimbingWall: any
-    let enterBench: any
-    let enterRedHolds: any
-    let enterBlueHolds: any
-    let enterOrangeHolds: any
-    let enterPurpleHolds: any
-    let enterGreenHolds: any
-    modelRef.current.scene.traverse((child) => {
-      if (child.name === 'Structure2') {
-        enterStructure2 = gsap.to(
-          child.scale,
-          {
-            x: 1,
-            duration: 0.3
-          }
-        )
-      } else if (child.name === 'ClimbingWall') {
-        enterClimbingWall = gsap.to(
-          child.scale,
-          {
-            x: 1,
-            y: 1,
-            z: 1,
-            duration: 0.3,
-            ease: 'back.out(2)'
-          }
-        )
-      } else if (child.name === 'Bench') {
-        enterBench = gsap.to(
-          child.scale,
-          {
-            x: 1,
-            y: 1,
-            z: 1,
-            duration: 0.3,
-            ease: 'back.out(2)'
-          }
-        )
-      } else if (child.name === 'OrangeHolds') {
-        enterOrangeHolds = gsap.to(
-          child.scale,
-          {
-            x: 1,
-            y: 1,
-            z: 1,
-            duration: 0.3,
-            ease: 'back.out(2)'
-          }
-        )
-      } else if (child.name === 'RedHolds') {
-        enterRedHolds = gsap.to(
-          child.scale,
-          {
-            x: 1,
-            y: 1,
-            z: 1,
-            duration: 0.3,
-            ease: 'back.out(2)'
-          }
-        )
-      } else if (child.name === 'PurpleHolds') {
-        enterPurpleHolds = gsap.to(
-          child.scale,
-          {
-            x: 1,
-            y: 1,
-            z: 1,
-            duration: 0.3,
-            ease: 'back.out(2)'
-          }
-        )
-      } else if (child.name === 'BlueHolds') {
-        enterBlueHolds = gsap.to(
-          child.scale,
-          {
-            x: 1,
-            y: 1,
-            z: 1,
-            duration: 0.3,
-            ease: 'back.out(2)'
-          }
-        )
-      } else if (child.name === 'GreenHolds') {
-        enterGreenHolds = gsap.to(
-          child.scale,
-          {
-            x: 1,
-            y: 1,
-            z: 1,
-            duration: 0.3,
-            ease: 'back.out(2)'
-          }
-        )
-      }
-    })
-
-    secondRoomTimeline.add(enterStructure2)
-    secondRoomTimeline.add(enterClimbingWall, 'bench-and-wall')
-    secondRoomTimeline.add(enterBench, 'bench-and-wall')
-    secondRoomTimeline.add(enterOrangeHolds)
-    secondRoomTimeline.add(enterRedHolds)
-    secondRoomTimeline.add(enterPurpleHolds)
-    secondRoomTimeline.add(enterBlueHolds)
-    secondRoomTimeline.add(enterGreenHolds)
+    return () => {
+      mm.revert()
+    }
   }, [])
 
   return <group ref={scene} position-y={-0.5}>
@@ -306,6 +326,7 @@ export default function Room(): JSX.Element {
       </group>
       <Lights />
       <mesh
+        ref={shadow}
         name='shadow'
         rotation-x={-Math.PI / 2}
         rotation-z={Math.PI / 4}
