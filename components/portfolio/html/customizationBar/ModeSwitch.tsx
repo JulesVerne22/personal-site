@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles'
 import Switch from '@mui/material/Switch'
+import { shallow } from 'zustand/shallow'
 import { usePortfolioStore } from '../../../../stores/usePortfolio'
 
 const CustomSwitch = styled(Switch)(({ theme }) => ({
@@ -50,7 +51,10 @@ const CustomSwitch = styled(Switch)(({ theme }) => ({
 }))
 
 export default function ModeSwitch(): JSX.Element {
-  const {mode, toggleMode} = usePortfolioStore(state => ({mode: state.mode, toggleMode: state.toggleMode}))
+  const {mode, toggleMode} = usePortfolioStore(state => ({
+    mode: state.mode,
+    toggleMode: state.toggleMode
+  }), shallow)
 
   return <CustomSwitch checked={!mode} onClick={toggleMode} sx={{ m: 1 }} />
 }

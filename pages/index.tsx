@@ -10,28 +10,38 @@ export default function Home(): JSX.Element {
     backgroundDark: '#2c3269',
     backgroundLight: '#599da0'
   }, { collapsed: true })
-  const mode = usePortfolioStore(state => state.mode)
   const homePage = useRef<HTMLDivElement>(null!)
 
   useEffect(() => {
-    let ctx = gsap.context(() => {
-      if (homePage) {
-        if (mode) {
-          gsap.to(homePage.current, {
-            backgroundColor: backgroundLight
-          })
-        } else {
-          gsap.to(homePage.current, {
-            backgroundColor: backgroundDark
-          })
+    const unsubscribeMode = usePortfolioStore.subscribe(
+      state => state.mode,
+      (mode) => {
+        let ctx = gsap.context(() => {
+          if (homePage) {
+            if (mode) {
+              gsap.to(homePage.current, {
+                backgroundColor: backgroundLight,
+                duration: 0.5
+              })
+            } else {
+              gsap.to(homePage.current, {
+                backgroundColor: backgroundDark,
+                duration: 0.5
+              })
+            }
+          }
+        })
+
+        return () => {
+          ctx.revert()
         }
       }
-    })
+    )
 
     return () => {
-      ctx.revert()
+      unsubscribeMode()
     }
-  }, [mode, backgroundLight, backgroundDark, homePage])
+  }, [backgroundLight, backgroundDark, homePage])
 
   return <Box
     ref={homePage}

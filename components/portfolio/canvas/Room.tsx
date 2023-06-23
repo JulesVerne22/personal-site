@@ -3,12 +3,12 @@ import { useFrame } from '@react-three/fiber'
 import { Mesh, MeshPhysicalMaterial, MeshStandardMaterial, MeshBasicMaterial, Group } from 'three'
 import { GLTF } from 'three-stdlib'
 import { useControls } from 'leva'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, memo } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { shallow } from 'zustand/shallow'
 import Lights from './Lights'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
-
 
 interface LoadedGLTF extends GLTF {
   nodes: any,
@@ -17,11 +17,11 @@ interface LoadedGLTF extends GLTF {
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function Room(): JSX.Element {
+export default memo(function Room(): JSX.Element {
   const { ledColor, setLEDColor } = usePortfolioStore(state => ({
     ledColor: state.ledColor,
     setLEDColor: state.setLEDColor
-  }))
+  }), shallow)
 
   const { Screen } = useControls('Office', {
     LEDs: {
@@ -36,11 +36,9 @@ export default function Room(): JSX.Element {
   }, { collapsed: true })
 
   const model = useGLTF('/models/portfolioRoomRegrouped.glb', true) as LoadedGLTF
-  model.scene.rotation.y = -Math.PI / 4
-  model.scene.traverse((child) => {
-    child.castShadow = true
-    child.receiveShadow = true
-
+  const modelRef = useRef<LoadedGLTF>(null!)
+  modelRef.current = model
+  modelRef.current.scene.traverse((child) => {
     if (child.name === 'DeskItems') {
       const sidePanelMaterial = (child.children[8] as Mesh).material = new MeshPhysicalMaterial()
       sidePanelMaterial.roughness = 1
@@ -60,30 +58,12 @@ export default function Room(): JSX.Element {
       const childMaterial = (child.children[9] as Mesh).material = new MeshBasicMaterial()
       childMaterial.color.set(Screen)
       childMaterial.toneMapped = false
-
       //child.scale.set(0, 0, 0)
     } else if (child.name === 'Carpet') {
       const carpetMaterial = (child.children[0] as Mesh).material as MeshStandardMaterial
       carpetMaterial.color.set(ledColor)
       carpetMaterial.color.multiplyScalar(0.25)
-
       //child.scale.set(0, 0, 0)
-    } else if (
-      //child.name === 'Desk' ||
-      //child.name === 'Bookshelf' ||
-      child.name === 'Bench' ||
-      //child.name === 'FloorItems' ||
-      //child.name === 'Chair' ||
-      child.name === 'ClimbingWall' ||
-      child.name === 'RedHolds' ||
-      child.name === 'OrangeHolds' ||
-      child.name === 'PurpleHolds' ||
-      child.name === 'BlueHolds' ||
-      child.name === 'GreenHolds'
-    ) {
-      child.scale.set(0, 0, 0)
-    } else if (child.name === 'Structure2') {
-      child.scale.x = 0.0001
     }
   })
 
@@ -93,8 +73,6 @@ export default function Room(): JSX.Element {
   const scene = useRef<Group>(null!)
   const room = useRef<Group>(null!)
   const shadow = useRef<Mesh>(null!)
-  const modelRef = useRef<LoadedGLTF>(null!)
-  modelRef.current = model
 
   useFrame(() => {
     lerpCurrent.current = gsap.utils.interpolate(
@@ -119,6 +97,8 @@ export default function Room(): JSX.Element {
   }, [])
 
   useEffect(() => {
+    modelRef.current.scene.rotation.y = -Math.PI / 4
+
     let mm = gsap.matchMedia()
 
     mm.add({
@@ -216,7 +196,11 @@ export default function Room(): JSX.Element {
       let enterPurpleHolds: any
       let enterGreenHolds: any
       modelRef.current.scene.traverse((child) => {
+        child.castShadow = true
+        child.receiveShadow = true
+
         if (child.name === 'Structure2') {
+          child.scale.x = 0.0001
           enterStructure2 = gsap.to(
             child.scale,
             {
@@ -225,6 +209,7 @@ export default function Room(): JSX.Element {
             }
           )
         } else if (child.name === 'ClimbingWall') {
+          child.scale.set(0, 0, 0)
           enterClimbingWall = gsap.to(
             child.scale,
             {
@@ -236,6 +221,7 @@ export default function Room(): JSX.Element {
             }
           )
         } else if (child.name === 'Bench') {
+          child.scale.set(0, 0, 0)
           enterBench = gsap.to(
             child.scale,
             {
@@ -247,6 +233,7 @@ export default function Room(): JSX.Element {
             }
           )
         } else if (child.name === 'OrangeHolds') {
+          child.scale.set(0, 0, 0)
           enterOrangeHolds = gsap.to(
             child.scale,
             {
@@ -258,6 +245,7 @@ export default function Room(): JSX.Element {
             }
           )
         } else if (child.name === 'RedHolds') {
+          child.scale.set(0, 0, 0)
           enterRedHolds = gsap.to(
             child.scale,
             {
@@ -269,6 +257,7 @@ export default function Room(): JSX.Element {
             }
           )
         } else if (child.name === 'PurpleHolds') {
+          child.scale.set(0, 0, 0)
           enterPurpleHolds = gsap.to(
             child.scale,
             {
@@ -280,6 +269,7 @@ export default function Room(): JSX.Element {
             }
           )
         } else if (child.name === 'BlueHolds') {
+          child.scale.set(0, 0, 0)
           enterBlueHolds = gsap.to(
             child.scale,
             {
@@ -291,6 +281,7 @@ export default function Room(): JSX.Element {
             }
           )
         } else if (child.name === 'GreenHolds') {
+          child.scale.set(0, 0, 0)
           enterGreenHolds = gsap.to(
             child.scale,
             {
@@ -331,9 +322,7 @@ export default function Room(): JSX.Element {
         rotation-x={-Math.PI / 2}
         rotation-z={Math.PI / 4}
         position={[-0.0075, -0.2, -0.0225]}
-        //position={[-0.65, -0.2, -0.7]}
         scale={[1.0075, 1.0225, 1]}
-      //scale={[1.1, 2, 1]}
       >
         <planeGeometry args={[2, 2]} />
         <meshBasicMaterial
@@ -344,6 +333,6 @@ export default function Room(): JSX.Element {
       </mesh>
     </group>
   </group>
-}
+})
 
 useGLTF.preload('/models/portfolioRoom.glb', true)

@@ -1,7 +1,5 @@
 import { create } from 'zustand'
 import { subscribeWithSelector } from 'zustand/middleware'
-import { PerspectiveCamera, OrthographicCamera, Group } from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 
 interface PortfolioState {
   mode: boolean

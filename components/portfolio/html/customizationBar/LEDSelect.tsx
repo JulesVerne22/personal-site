@@ -1,14 +1,15 @@
 import { Box, Typography } from '@mui/material'
-import { useRef } from 'react'
+import { useRef, memo } from 'react'
 import { gsap } from 'gsap'
 import { usePortfolioStore } from '../../../../stores/usePortfolio'
+import { shallow } from 'zustand/shallow'
 import Color from './Color'
 
-export default function LEDSelect(): JSX.Element {
+export default memo(function LEDSelect(): JSX.Element {
   const {ledColor, setLEDColor} = usePortfolioStore(state => ({
     ledColor: state.ledColor,
     setLEDColor: state.setLEDColor
-  }))
+  }), shallow)
   const colorDrawer = useRef<HTMLDivElement>(null!)
 
   const handleChangeColor = (color: string) => {
@@ -109,4 +110,4 @@ export default function LEDSelect(): JSX.Element {
       />
     </Box>
   </Box>
-}
+})
