@@ -1,4 +1,8 @@
 import { Box, Typography } from '@mui/material'
+import Lenis from '@studio-freight/lenis'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useEffect } from 'react'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
 import HeroSection from './HeroSection'
 import AboutMe from './AboutMe'
@@ -7,6 +11,18 @@ import CustomizeScene from './CustomizeScene'
 
 export default function Page(): JSX.Element {
   const mode = usePortfolioStore(state => state.mode)
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.4
+    })
+
+    lenis.on('scroll', ScrollTrigger.update)
+
+    gsap.ticker.add((time: any) => {
+      lenis.raf(time * 1000)
+    })
+  }, [])
 
   return <Box
     component='div'
