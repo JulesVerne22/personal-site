@@ -8,6 +8,7 @@ import { Perf } from 'r3f-perf'
 import Camera from './canvas/Camera'
 import World from './canvas/World'
 import Page from './html/Page'
+import Preloader from './canvas/Preloader'
 
 export default function Portfolio(): JSX.Element {
   const [debug, setDebug] = useState<undefined | string | string[]>(undefined)
@@ -50,6 +51,7 @@ export default function Portfolio(): JSX.Element {
         }
         <Camera />
         <World />
+        <Preloader />
       </Canvas>
     </Box>
     <Page />

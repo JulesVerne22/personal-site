@@ -213,7 +213,7 @@ export default function Lights(): JSX.Element {
       shadow-camera-far={20}
       shadow-camera-near={0.1}
       shadow-mapSize={[2048, 2048]}
-      shadow-normalBias={0.02}
+      shadow-normalBias={0.04}
       shadow-radius={25}
       distance={8.5}
       decay={11.2}

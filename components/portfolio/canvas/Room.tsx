@@ -18,9 +18,11 @@ interface LoadedGLTF extends GLTF {
 gsap.registerPlugin(ScrollTrigger)
 
 export default memo(function Room(): JSX.Element {
-  const { ledColor, setLEDColor } = usePortfolioStore(state => ({
+  const { ledColor, setLEDColor, setLoaded, modelChildren } = usePortfolioStore(state => ({
     ledColor: state.ledColor,
-    setLEDColor: state.setLEDColor
+    setLEDColor: state.setLEDColor,
+    setLoaded: state.setLoaded,
+    modelChildren: state.modelChildren
   }), shallow)
 
   const { Screen } = useControls('Office', {
@@ -38,34 +40,49 @@ export default memo(function Room(): JSX.Element {
   const model = useGLTF('/models/portfolioRoomRegrouped.glb', true) as LoadedGLTF
   const modelRef = useRef<LoadedGLTF>(null!)
   modelRef.current = model
-  modelRef.current.scene.traverse((child) => {
-    if (child.name === 'DeskItems') {
-      const sidePanelMaterial = (child.children[8] as Mesh).material = new MeshPhysicalMaterial()
-      sidePanelMaterial.roughness = 1
-      sidePanelMaterial.color.set(0x666666)
-      sidePanelMaterial.ior = 1.1
-      sidePanelMaterial.transmission = 1
-      sidePanelMaterial.opacity = 1
-      sidePanelMaterial.toneMapped = false
+  if (Object.keys(modelChildren).length === 0) {
+    modelRef.current.scene.children.forEach((child) => {
+      child.castShadow = true
+      child.receiveShadow = true
+      modelChildren[child.name] = child
+      child.scale.set(0, 0, 0)
 
-      const computerLightsMaterial = (child.children[6] as Mesh).material = new MeshStandardMaterial()
-      computerLightsMaterial.roughness = 1
-      computerLightsMaterial.color.set(0x000000)
-      computerLightsMaterial.emissiveIntensity = 3
-      computerLightsMaterial.emissive.set(ledColor)
-      computerLightsMaterial.toneMapped = false
+      child.children.forEach((child) => {
+        child.castShadow = true
+        child.receiveShadow = true
+      })
 
-      const childMaterial = (child.children[9] as Mesh).material = new MeshBasicMaterial()
-      childMaterial.color.set(Screen)
-      childMaterial.toneMapped = false
-      //child.scale.set(0, 0, 0)
-    } else if (child.name === 'Carpet') {
-      const carpetMaterial = (child.children[0] as Mesh).material as MeshStandardMaterial
-      carpetMaterial.color.set(ledColor)
-      carpetMaterial.color.multiplyScalar(0.25)
-      //child.scale.set(0, 0, 0)
-    }
-  })
+      if (child.name === 'DeskItems') {
+        const sidePanelMaterial = (child.children[8] as Mesh).material = new MeshPhysicalMaterial()
+        sidePanelMaterial.roughness = 1
+        sidePanelMaterial.color.set(0x666666)
+        sidePanelMaterial.ior = 1.1
+        sidePanelMaterial.transmission = 1
+        sidePanelMaterial.opacity = 1
+        sidePanelMaterial.toneMapped = false
+
+        const computerLightsMaterial = (child.children[6] as Mesh).material = new MeshStandardMaterial()
+        computerLightsMaterial.roughness = 1
+        computerLightsMaterial.color.set(0x000000)
+        computerLightsMaterial.emissiveIntensity = 3
+        computerLightsMaterial.emissive.set(ledColor)
+        computerLightsMaterial.toneMapped = false
+
+        const childMaterial = (child.children[9] as Mesh).material = new MeshBasicMaterial()
+        childMaterial.color.set(Screen)
+        childMaterial.toneMapped = false
+      } else if (child.name === 'Carpet') {
+        const carpetMaterial = (child as Mesh).material as MeshStandardMaterial
+        carpetMaterial.color.set(ledColor)
+        carpetMaterial.color.multiplyScalar(0.25)
+      }
+    })
+  } else {
+    modelChildren['DeskItems'].children[6].material.emissive.set(ledColor)
+    modelChildren['DeskItems'].children[9].material.color.set(Screen)
+    modelChildren['Carpet'].material.color.set(ledColor)
+    modelChildren['Carpet'].material.color.multiplyScalar(0.25)
+  }
 
   const lerpCurrent = useRef<number>(0)
   const lerpTarget = useRef<number>(0)
@@ -98,6 +115,11 @@ export default memo(function Room(): JSX.Element {
 
   useEffect(() => {
     modelRef.current.scene.rotation.y = -Math.PI / 4
+    modelChildren['Scene'] = scene.current
+    modelChildren['Room'] = room.current
+    modelChildren['Shadow'] = shadow.current
+    modelChildren['Shadow'].scale.set(0, 0, 0)
+    scene.current.position.y = 0.25
 
     let mm = gsap.matchMedia()
 
@@ -187,113 +209,91 @@ export default memo(function Room(): JSX.Element {
         'structure2'
       )
 
-      let enterStructure2: any
-      let enterClimbingWall: any
-      let enterBench: any
-      let enterRedHolds: any
-      let enterBlueHolds: any
-      let enterOrangeHolds: any
-      let enterPurpleHolds: any
-      let enterGreenHolds: any
-      modelRef.current.scene.traverse((child) => {
-        child.castShadow = true
-        child.receiveShadow = true
-
-        if (child.name === 'Structure2') {
-          child.scale.x = 0.0001
-          enterStructure2 = gsap.to(
-            child.scale,
-            {
-              x: 1,
-              duration: 0.3
-            }
-          )
-        } else if (child.name === 'ClimbingWall') {
-          child.scale.set(0, 0, 0)
-          enterClimbingWall = gsap.to(
-            child.scale,
-            {
-              x: 1,
-              y: 1,
-              z: 1,
-              duration: 0.3,
-              ease: 'back.out(2)'
-            }
-          )
-        } else if (child.name === 'Bench') {
-          child.scale.set(0, 0, 0)
-          enterBench = gsap.to(
-            child.scale,
-            {
-              x: 1,
-              y: 1,
-              z: 1,
-              duration: 0.3,
-              ease: 'back.out(2)'
-            }
-          )
-        } else if (child.name === 'OrangeHolds') {
-          child.scale.set(0, 0, 0)
-          enterOrangeHolds = gsap.to(
-            child.scale,
-            {
-              x: 1,
-              y: 1,
-              z: 1,
-              duration: 0.3,
-              ease: 'back.out(2)'
-            }
-          )
-        } else if (child.name === 'RedHolds') {
-          child.scale.set(0, 0, 0)
-          enterRedHolds = gsap.to(
-            child.scale,
-            {
-              x: 1,
-              y: 1,
-              z: 1,
-              duration: 0.3,
-              ease: 'back.out(2)'
-            }
-          )
-        } else if (child.name === 'PurpleHolds') {
-          child.scale.set(0, 0, 0)
-          enterPurpleHolds = gsap.to(
-            child.scale,
-            {
-              x: 1,
-              y: 1,
-              z: 1,
-              duration: 0.3,
-              ease: 'back.out(2)'
-            }
-          )
-        } else if (child.name === 'BlueHolds') {
-          child.scale.set(0, 0, 0)
-          enterBlueHolds = gsap.to(
-            child.scale,
-            {
-              x: 1,
-              y: 1,
-              z: 1,
-              duration: 0.3,
-              ease: 'back.out(2)'
-            }
-          )
-        } else if (child.name === 'GreenHolds') {
-          child.scale.set(0, 0, 0)
-          enterGreenHolds = gsap.to(
-            child.scale,
-            {
-              x: 1,
-              y: 1,
-              z: 1,
-              duration: 0.3,
-              ease: 'back.out(2)'
-            }
-          )
+      modelChildren['Structure2'].scale.x = 0.0001
+      const enterStructure2 = gsap.to(
+        modelChildren['Structure2'].scale,
+        {
+          x: 1,
+          duration: 0.3
         }
-      })
+      )
+
+      const enterClimbingWall = gsap.to(
+        modelChildren['ClimbingWall'].scale,
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.3,
+          ease: 'back.out(2)'
+        }
+      )
+
+      const enterBench = gsap.to(
+        modelChildren['Bench'].scale,
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.3,
+          ease: 'back.out(2)'
+        }
+      )
+
+      const enterOrangeHolds = gsap.to(
+        modelChildren['OrangeHolds'].scale,
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.3,
+          ease: 'back.out(2)'
+        }
+      )
+
+      const enterRedHolds = gsap.to(
+        modelChildren['RedHolds'].scale,
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.3,
+          ease: 'back.out(2)'
+        }
+      )
+
+      const enterPurpleHolds = gsap.to(
+        modelChildren['PurpleHolds'].scale,
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.3,
+          ease: 'back.out(2)'
+        }
+      )
+
+      const enterBlueHolds = gsap.to(
+        modelChildren['BlueHolds'].scale,
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.3,
+          ease: 'back.out(2)'
+        }
+      )
+
+      const enterGreenHolds = gsap.to(
+        modelChildren['GreenHolds'].scale,
+        {
+          x: 1,
+          y: 1,
+          z: 1,
+          duration: 0.3,
+          ease: 'back.out(2)'
+        }
+      )
 
       secondRoomTimeline.add(enterStructure2, 'structure2')
       secondRoomTimeline.add(enterClimbingWall, 'bench-and-wall')
@@ -304,6 +304,8 @@ export default memo(function Room(): JSX.Element {
       secondRoomTimeline.add(enterBlueHolds, '-=0.1')
       secondRoomTimeline.add(enterGreenHolds, '-=0.1')
     })
+
+    setLoaded(true)
 
     return () => {
       mm.revert()

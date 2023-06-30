@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import Lenis from '@studio-freight/lenis'
 import { gsap } from 'gsap'
+import { shallow } from 'zustand/shallow'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useEffect } from 'react'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
@@ -10,7 +11,10 @@ import MyWork from './MyWork'
 import CustomizeScene from './CustomizeScene'
 
 export default function Page(): JSX.Element {
-  const mode = usePortfolioStore(state => state.mode)
+  const { mode, setLenis } = usePortfolioStore(state => ({
+    mode: state.mode,
+    setLenis: state.setLenis
+  }), shallow)
 
   useEffect(() => {
     const lenis = new Lenis({
@@ -22,6 +26,14 @@ export default function Page(): JSX.Element {
     gsap.ticker.add((time: any) => {
       lenis.raf(time * 1000)
     })
+
+    lenis.stop()
+
+    setLenis(lenis)
+
+    return () => {
+      lenis.destroy()
+    }
   }, [])
 
   return <Box
