@@ -6,6 +6,7 @@ export default function HeroSection(): JSX.Element {
     className='hero-section'
     component='div'
     sx={{
+      opacity: 0,
       position: 'relative',
       width: '100%',
       height: '100svh',
@@ -55,16 +56,18 @@ export default function HeroSection(): JSX.Element {
           display: 'flex',
           justifyContent: 'center',
           position: 'absolute',
-          bottom: '12%',
           width: '100%',
+          height: '100%',
           transition: 'color 2.5s'
         }}
       >
-        <Typography variant='body1' fontSize='1rem'>
-          scroll
-        </Typography>
-        <Box component='div' position='absolute' top='10px'>
-          <DownArrow fontSize='large' />        
+        <Box
+          component='div'
+          className='scrollArrow'
+          position='absolute'
+          bottom='10%'
+        >
+          <DownArrow fontSize='large' />
         </Box>
       </Box>
     </Box>

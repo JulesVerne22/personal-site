@@ -15,15 +15,16 @@ export default function Portfolio(): JSX.Element {
   const router = useRouter()
 
   useEffect(() => {
-    if(router.isReady) {
+    if (router.isReady) {
       setDebug(router.query.debug)
     }
   }, [router])
 
   return <>
-    <Box component='div' sx={{ '& > div': { marginTop: '50px' }}}>
+    <Box component='div' sx={{ '& > div': { marginTop: '50px' } }}>
       <Leva hidden={typeof debug === 'undefined'} collapsed />
     </Box>
+
     <Box
       component='div'
       sx={{
@@ -46,7 +47,7 @@ export default function Portfolio(): JSX.Element {
       >
         {typeof debug === 'undefined' ?
           null
-        :
+          :
           <Perf matrixUpdate position='bottom-left' />
         }
         <Camera />
@@ -54,6 +55,7 @@ export default function Portfolio(): JSX.Element {
         <Preloader />
       </Canvas>
     </Box>
+
     <Page />
   </>
 }

@@ -8,3 +8,13 @@ body {
   height: 100%;
 }
 
+@keyframes floatingAnimation {
+0% { transform: translateY(0); }
+50% { transform: translateY(-10px); }
+100% { transform: translateY(0); }
+}
+
+.scrollArrow {
+  animation: floatingAnimation 1.5s linear infinite;
+}
+

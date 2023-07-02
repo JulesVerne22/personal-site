@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { shallow } from 'zustand/shallow'
 import { gsap } from 'gsap'
 import { useTheme } from '@mui/material/styles'
@@ -13,7 +13,8 @@ export default function Preloader(): JSX.Element {
   }), shallow)
 
   const theme = useTheme()
-  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'))
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
+  const resizeFlag = useRef<boolean>(false)
 
   useEffect(() => {
     function introOne() {
@@ -32,20 +33,37 @@ export default function Preloader(): JSX.Element {
             ease: 'back.out(2.5)',
             duration: 0.7
           }, 'intro1').to(modelChildren['Scene'].position, {
-            x: isDesktop ? -1 : 0,
+            x: isDesktop ? -1.25 : 0,
             y: isDesktop ? 0.25 : 0.5,
+            ease: 'power1.out',
+            duration: 0.7
+          }).to('.intro-text', {
+            opacity: 1,
+            ease: 'power1.out',
+            duration: 0.7
+          }, '-=0.3').to('.starting-arrow', {
+            opacity: 1,
             ease: 'power1.out',
             duration: 0.7,
             onComplete: () => {
               resolve('resolved')
             }
-          })
+          }, '-=0.3')
       })
     }
 
     function introTwo() {
       return new Promise(resolve => {
         const timelineTwo = gsap.timeline()
+          .to('.starting-arrow', {
+            opacity: 0,
+            ease: 'power1.out',
+            duration: 0.3
+          }, 'intro-text-out').to('.intro-text', {
+            opacity: 0,
+            ease: 'power1.out',
+            duration: 0.3
+          }, 'intro-text-out')
           .to(modelChildren['Scene'].position, {
             x: 0,
             y: -0.5,
@@ -118,14 +136,22 @@ export default function Preloader(): JSX.Element {
             z: 1,
             ease: 'back.out(1)'
           }, 'chair').to(modelChildren['Chair'].rotation, {
-            y: Math.PI * 2 * 3,
+            y: Math.PI * 2 * 2,
             ease: 'power1.out(1)',
-            duration: 1.5,
+            duration: 1.5
+          }, 'chair').to('.customize-scene', {
+            opacity: 1,
+            ease: 'power1.out(1)',
+            duration: 0.7
+          }, 'overlay-=0.3').to('.hero-section', {
+            opacity: 1,
+            ease: 'power1.out(1)',
+            duration: 0.7,
             onComplete: () => {
               resolve('resolved')
               lenis?.start()
             }
-          }, 'chair')
+          }, 'overlay-=0.3')
       })
     }
 
@@ -134,6 +160,7 @@ export default function Preloader(): JSX.Element {
         window.removeEventListener('wheel', triggerIntroTwo)
         window.removeEventListener('touchstart', onTouchStart)
         window.removeEventListener('touchmove', onTouchMove)
+        resizeFlag.current = false
         await introTwo()
       }
     }
@@ -156,6 +183,7 @@ export default function Preloader(): JSX.Element {
       if (difference > 0) {
         window.removeEventListener('touchmove', onTouchMove)
         window.removeEventListener('wheel', triggerIntroTwo)
+        resizeFlag.current = false
         await introTwo()
       }
       initialY = null
@@ -163,6 +191,7 @@ export default function Preloader(): JSX.Element {
 
     async function playIntro() {
       await introOne()
+      resizeFlag.current = true
       window.addEventListener('wheel', triggerIntroTwo)
       window.addEventListener('touchstart', onTouchStart)
       window.addEventListener('touchmove', onTouchMove)
@@ -172,6 +201,16 @@ export default function Preloader(): JSX.Element {
       playIntro()
     }
   }, [loaded])
+
+  if (Object.keys(modelChildren).length !== 0) {
+    if (resizeFlag.current) {
+      if (isDesktop) {
+        modelChildren['Scene'].position.set(-1.25, 0.25, 0)
+      } else {
+        modelChildren['Scene'].position.set(0, 0.5, 0)
+      }
+    }
+  }
 
   return <></>
 }

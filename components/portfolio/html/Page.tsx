@@ -1,9 +1,10 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Switch, Typography } from '@mui/material'
+import DownArrow from '@mui/icons-material/KeyboardArrowDown'
 import Lenis from '@studio-freight/lenis'
 import { gsap } from 'gsap'
 import { shallow } from 'zustand/shallow'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useEffect } from 'react'
+import { useEffect, ChangeEvent } from 'react'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
 import HeroSection from './HeroSection'
 import AboutMe from './AboutMe'
@@ -11,9 +12,10 @@ import MyWork from './MyWork'
 import CustomizeScene from './CustomizeScene'
 
 export default function Page(): JSX.Element {
-  const { mode, setLenis } = usePortfolioStore(state => ({
+  const { mode, setLenis, setEnableOrbitControls } = usePortfolioStore(state => ({
     mode: state.mode,
-    setLenis: state.setLenis
+    setLenis: state.setLenis,
+    setEnableOrbitControls: state.setEnableOrbitControls
   }), shallow)
 
   useEffect(() => {
@@ -27,6 +29,7 @@ export default function Page(): JSX.Element {
       lenis.raf(time * 1000)
     })
 
+    lenis.scrollTo('top', { immediate: true })
     lenis.stop()
 
     setLenis(lenis)
@@ -35,6 +38,10 @@ export default function Page(): JSX.Element {
       lenis.destroy()
     }
   }, [])
+
+  function toggleOrbitControls(e: ChangeEvent<HTMLInputElement>) {
+    setEnableOrbitControls(e.target.checked)
+  }
 
   return <Box
     component='div'
@@ -45,7 +52,62 @@ export default function Page(): JSX.Element {
       color: mode ? 'text.secondary' : 'text.primary'
     }}
   >
+    <Box
+      component='div'
+      className='starting-arrow'
+      sx={{
+        opacity: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        transition: 'color 2.5s'
+      }}
+    >
+      <Box
+        component='div'
+        className='scrollArrow'
+        position='absolute'
+        bottom='10%'
+      >
+        <DownArrow fontSize='large' />
+      </Box>
+    </Box>
+
+    <Box
+      component='div'
+      className='intro-text'
+      sx={{
+        opacity: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        width: '100%',
+        height: '75%',
+        transition: 'color 2.5s'
+      }}
+    >
+      <Typography
+        variant='h5'
+        sx={{
+          marginLeft: {
+            xs: '0px',
+            md: '125px'
+          },
+          marginTop: {
+            xs: '100px',
+            md: '0px'
+          }
+        }}
+      >
+        WELCOME TO MY PORTFOLIO!
+      </Typography>
+    </Box>
+
     <CustomizeScene />
+
     <Box component='div' sx={{ position: 'relative' }}>
       <HeroSection />
 
@@ -90,6 +152,7 @@ export default function Page(): JSX.Element {
           >
             Explore Around
           </Typography>
+          <Switch onChange={toggleOrbitControls} color='default' />
         </Box>
       </Box>
     </Box>

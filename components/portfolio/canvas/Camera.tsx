@@ -7,6 +7,7 @@ import { OrthographicCamera, PerspectiveCamera } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 import { OrthographicCamera as oCamera, PerspectiveCamera as pCamera } from 'three'
+import { usePortfolioStore } from '../../../stores/usePortfolio'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -19,6 +20,8 @@ export default function Camera(): JSX.Element {
       max: 10
     }
   }, { collapsed: true })
+
+  const enableOrbitControls = usePortfolioStore(state => state.enableOrbitControls)
 
   const oCamera = useRef<oCamera>(null!)
   const pCamera = useRef<pCamera>(null!)
@@ -209,7 +212,6 @@ export default function Camera(): JSX.Element {
           scrub: 0.6,
           invalidateOnRefresh: isDesktop,
           onLeave: () => {
-            orbitControls.current.enabled = true
             orbitControls.current.saveState()
           },
           onEnterBack: () => {
@@ -282,6 +284,21 @@ export default function Camera(): JSX.Element {
     }
   }, [getViewport])
 
+  useEffect(() => {
+    const unsubscribeOrbitControls = usePortfolioStore.subscribe(
+      state => state.enableOrbitControls,
+      (enableOrbitControls) => {
+        if (orbitControls.current) {
+          orbitControls.current.enabled = enableOrbitControls
+        }
+      }
+    )
+
+    return () => {
+      unsubscribeOrbitControls()
+    }
+  }, [])
+
   return <>
     <OrthographicCamera
       ref={oCamera}
@@ -309,7 +326,7 @@ export default function Camera(): JSX.Element {
     />
     <OrbitControls
       ref={orbitControls}
-      enableZoom={false}
+      enableZoom={true}
       enablePan={true}
       enabled={false}
       maxAzimuthAngle={Math.PI / 4}

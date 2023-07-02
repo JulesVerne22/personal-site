@@ -8,10 +8,12 @@ interface PortfolioState {
   loaded: boolean
   modelChildren: any
   lenis: Lenis | null
+  enableOrbitControls: boolean
   toggleMode: () => void
   setLEDColor: (color: string) => void
   setLoaded: (loaded: boolean) => void
   setLenis: (lenis: Lenis) => void
+  setEnableOrbitControls: (enable: boolean) => void
 }
 
 export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector((set) => {
@@ -21,6 +23,7 @@ export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector(
     loaded: false,
     modelChildren: {},
     lenis: null,
+    enableOrbitControls: false,
     toggleMode: () => {
       set((state) => {
         return {
@@ -46,6 +49,13 @@ export const usePortfolioStore = create<PortfolioState>()(subscribeWithSelector(
       set(() => {
         return {
           lenis: lenis
+        }
+      })
+    },
+    setEnableOrbitControls: (enable: boolean) => {
+      set(() => {
+        return {
+          enableOrbitControls: enable
         }
       })
     }
