@@ -12,10 +12,16 @@ import MyWork from './MyWork'
 import CustomizeScene from './CustomizeScene'
 
 export default function Page(): JSX.Element {
-  const { mode, setLenis, setEnableOrbitControls } = usePortfolioStore(state => ({
+  const {
+    mode,
+    setLenis,
+    setEnableOrbitControls,
+    enableOrbitControls
+  } = usePortfolioStore(state => ({
     mode: state.mode,
     setLenis: state.setLenis,
-    setEnableOrbitControls: state.setEnableOrbitControls
+    setEnableOrbitControls: state.setEnableOrbitControls,
+    enableOrbitControls: state.enableOrbitControls
   }), shallow)
 
   useEffect(() => {
@@ -150,7 +156,15 @@ export default function Page(): JSX.Element {
         sx={{ height: '3000px', width: '100%', position: 'relative', zIndex: '2' }}
       />
 
-      <Box component='div' sx={{ height: '100svh', width: '100%' }}>
+      <Box
+        component='div'
+        sx={{
+          position: enableOrbitControls ? 'static' : 'relative',
+          height: '100svh',
+          width: '100%',
+          zIndex: '2'
+        }}
+      >
         <Box
           component='div'
           padding='4em 0em 0em 2em'
