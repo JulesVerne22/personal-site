@@ -122,7 +122,7 @@ export default function Navbar(): JSX.Element {
                 let link = '/'
                 switch (page) {
                   case 'Home':
-                    link = '/]'
+                    link = '/'
                     break
                   case 'Games':
                     link = '/games'
@@ -201,7 +201,7 @@ export default function Navbar(): JSX.Element {
               let link = '/'
               switch (page) {
                 case 'Home':
-                  link = '/]'
+                  link = '/'
                   break
                 case 'Games':
                   link = '/games'
