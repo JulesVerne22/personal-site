@@ -1,5 +1,5 @@
 import React from 'react'
-import { Avatar, AppBar,Toolbar,Stack,Link,Container,IconButton,Drawer,Box,keyframes,Divider,Menu,MenuItem,ListItemIcon } from '@mui/material'
+import { Avatar, AppBar, Toolbar, Stack, Link, Container, IconButton, Drawer, Box, keyframes, Divider, Menu, MenuItem, ListItemIcon } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import Image from 'next/image'
@@ -7,13 +7,13 @@ import { styled } from '@mui/material/styles'
 import LoginIcon from '@mui/icons-material/Login'
 import BorderColorIcon from '@mui/icons-material/BorderColor'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useSession,signIn,signOut } from 'next-auth/react'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import PersonIcon from '@mui/icons-material/Person'
 import { Squash as Hamburger } from 'hamburger-react'
 import { imageContext } from './Layout'
 
 export default function Navbar(): JSX.Element {
-  const pages = ['Home', 'Games', 'About']
+  const pages = ['Home', 'Games', 'Github', 'LinkedIn']
 
   const { image } = React.useContext(imageContext)
   const [imageData, setImageData] = React.useState<null | any>(null)
@@ -78,7 +78,7 @@ export default function Navbar(): JSX.Element {
 
   let profileImage: undefined | string
 
-  if(imageData && imageData.status === 'ok') {
+  if (imageData && imageData.status === 'ok') {
     profileImage = imageData.data as string
   } else if (session) {
     profileImage = session!.user?.image as string
@@ -105,7 +105,7 @@ export default function Navbar(): JSX.Element {
               justifyContent='center'
               alignItems='center'
               sx={{
-                display: {xs: 'none', md: 'flex'},
+                display: { xs: 'none', md: 'flex' },
                 width: '100%'
               }}
             >
@@ -119,10 +119,27 @@ export default function Navbar(): JSX.Element {
                 />
               </Link>
               {pages.map((page, index) => {
+                let link = '/'
+                switch (page) {
+                  case 'Home':
+                    link = '/]'
+                    break
+                  case 'Games':
+                    link = '/games'
+                    break
+                  case 'Github':
+                    link = 'https://github.com/JulesVerne22/personal-site'
+                    break
+                  case 'LinkedIn':
+                    link = 'https://www.linkedin.com/in/julian-smith-161094107/'
+                    break
+                  default:
+                }
+
                 return <Link
                   key={index + '-topBar-link'}
                   underline='none'
-                  href={'/' + (page !== 'Home' ? page.toLowerCase() : '')}
+                  href={link}
                   color='inherit'
                 >
                   {page}
@@ -137,7 +154,7 @@ export default function Navbar(): JSX.Element {
               justifyContent='space-between'
               alignItems='center'
               sx={{
-                display: {xs: 'flex', md: 'none'},
+                display: { xs: 'flex', md: 'none' },
                 width: '100%'
               }}
             >
@@ -181,11 +198,28 @@ export default function Navbar(): JSX.Element {
           <Stack spacing={2} alignItems='center'>
             <Toolbar variant='dense' />
             {pages.map((page, index) => {
+              let link = '/'
+              switch (page) {
+                case 'Home':
+                  link = '/]'
+                  break
+                case 'Games':
+                  link = '/games'
+                  break
+                case 'Github':
+                  link = 'https://github.com/JulesVerne22/personal-site'
+                  break
+                case 'LinkedIn':
+                  link = 'https://www.linkedin.com/in/julian-smith-161094107/'
+                  break
+                default:
+              }
+
               return <React.Fragment key={index + '-drawer-fragment'}>
                 <Link
                   key={index + '-drawer-link'}
                   underline='none'
-                  href={'/' + (page !== 'Home' ? page.toLowerCase() : '')}
+                  href={link}
                   color='inherit'
                   sx={{ width: '90%' }}
                 >
@@ -236,19 +270,19 @@ export default function Navbar(): JSX.Element {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         {!session ? <Box component='div'>
-            <MenuItem onClick={() => signIn()}>
-              <ListItemIcon sx={{ color: 'inherit' }}>
-                <LoginIcon fontSize='small' />
-              </ListItemIcon>
-              Login
-            </MenuItem>
-            <MenuItem component='a' href='/auth/register'>
-              <ListItemIcon sx={{ color: 'inherit' }}>
-                <BorderColorIcon fontSize='small' />
-              </ListItemIcon>
-              Register
-            </MenuItem>
-          </Box>
+          <MenuItem onClick={() => signIn()}>
+            <ListItemIcon sx={{ color: 'inherit' }}>
+              <LoginIcon fontSize='small' />
+            </ListItemIcon>
+            Login
+          </MenuItem>
+          <MenuItem component='a' href='/auth/register'>
+            <ListItemIcon sx={{ color: 'inherit' }}>
+              <BorderColorIcon fontSize='small' />
+            </ListItemIcon>
+            Register
+          </MenuItem>
+        </Box>
           :
           <Box component='div'>
             <MenuItem component='a' href='/profile'>
