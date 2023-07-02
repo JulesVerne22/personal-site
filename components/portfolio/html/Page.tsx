@@ -54,6 +54,23 @@ export default function Page(): JSX.Element {
   >
     <Box
       component='div'
+      className='loader'
+      sx={{
+        opacity: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        width: '100%',
+        height: '75%',
+        transition: 'color 2.5s'
+      }}
+    >
+      <Box component='div' className='dot-flashing' />
+    </Box>
+
+    <Box
+      component='div'
       className='starting-arrow'
       sx={{
         opacity: 0,

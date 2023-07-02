@@ -20,7 +20,12 @@ export default function Preloader(): JSX.Element {
     function introOne() {
       return new Promise(resolve => {
         const timelineOne = gsap.timeline()
-          .to(modelChildren['Shadow'].scale, {
+          .to('.loader', {
+            opacity: 0,
+            ease: 'power1.out',
+            duration: 0.7,
+            delay: 1.5
+          }).to(modelChildren['Shadow'].scale, {
             x: 0.25 * 1.0075,
             y: 0.25 * 1.0225,
             z: 0.25,
@@ -34,7 +39,7 @@ export default function Preloader(): JSX.Element {
             duration: 0.7
           }, 'intro1').to(modelChildren['Scene'].position, {
             x: isDesktop ? -1.25 : 0,
-            y: isDesktop ? 0.25 : 0.5,
+            y: isDesktop ? 0.25 : 0.75,
             ease: 'power1.out',
             duration: 0.7
           }).to('.intro-text', {
@@ -207,7 +212,7 @@ export default function Preloader(): JSX.Element {
       if (isDesktop) {
         modelChildren['Scene'].position.set(-1.25, 0.25, 0)
       } else {
-        modelChildren['Scene'].position.set(0, 0.5, 0)
+        modelChildren['Scene'].position.set(0, 0.75, 0)
       }
     }
   }
