@@ -1,12 +1,12 @@
 import { useHelper } from '@react-three/drei'
 import { useThree } from '@react-three/fiber'
 import { PointLight, SpotLight, DirectionalLight, PointLightHelper, SpotLightHelper, Color, DirectionalLightHelper } from 'three'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, memo } from 'react'
 import { useControls, folder } from 'leva'
 import { gsap } from 'gsap'
 import { usePortfolioStore } from '../../../stores/usePortfolio'
 
-export default function Lights(): JSX.Element {
+export default memo(function Lights(): JSX.Element {
   const {
     spotLightHelper,
     officeLightHelper,
@@ -232,4 +232,4 @@ export default function Lights(): JSX.Element {
       shadow-normalBias={0.01}
     />
   </>
-}
+})

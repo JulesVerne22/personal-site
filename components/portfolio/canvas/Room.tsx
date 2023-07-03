@@ -119,6 +119,7 @@ export default memo(function Room(): JSX.Element {
     modelChildren['Room'] = room.current
     modelChildren['Shadow'] = shadow.current
     modelChildren['Shadow'].scale.set(0, 0, 0)
+    modelChildren['Structure2'].scale.x = 0.0001
     scene.current.position.y = 0.25
 
     let mm = gsap.matchMedia()
@@ -207,102 +208,58 @@ export default memo(function Room(): JSX.Element {
           duration: 0.3
         },
         'structure2'
-      )
-
-      modelChildren['Structure2'].scale.x = 0.0001
-      const enterStructure2 = gsap.to(
-        modelChildren['Structure2'].scale,
-        {
-          x: 1,
-          duration: 0.3
-        }
-      )
-
-      const enterClimbingWall = gsap.to(
-        modelChildren['ClimbingWall'].scale,
-        {
-          x: 1,
-          y: 1,
-          z: 1,
-          duration: 0.3,
-          ease: 'back.out(2)'
-        }
-      )
-
-      const enterBench = gsap.to(
-        modelChildren['Bench'].scale,
-        {
-          x: 1,
-          y: 1,
-          z: 1,
-          duration: 0.3,
-          ease: 'back.out(2)'
-        }
-      )
-
-      const enterOrangeHolds = gsap.to(
-        modelChildren['OrangeHolds'].scale,
-        {
-          x: 1,
-          y: 1,
-          z: 1,
-          duration: 0.3,
-          ease: 'back.out(2)'
-        }
-      )
-
-      const enterRedHolds = gsap.to(
-        modelChildren['RedHolds'].scale,
-        {
-          x: 1,
-          y: 1,
-          z: 1,
-          duration: 0.3,
-          ease: 'back.out(2)'
-        }
-      )
-
-      const enterPurpleHolds = gsap.to(
-        modelChildren['PurpleHolds'].scale,
-        {
-          x: 1,
-          y: 1,
-          z: 1,
-          duration: 0.3,
-          ease: 'back.out(2)'
-        }
-      )
-
-      const enterBlueHolds = gsap.to(
-        modelChildren['BlueHolds'].scale,
-        {
-          x: 1,
-          y: 1,
-          z: 1,
-          duration: 0.3,
-          ease: 'back.out(2)'
-        }
-      )
-
-      const enterGreenHolds = gsap.to(
-        modelChildren['GreenHolds'].scale,
-        {
-          x: 1,
-          y: 1,
-          z: 1,
-          duration: 0.3,
-          ease: 'back.out(2)'
-        }
-      )
-
-      secondRoomTimeline.add(enterStructure2, 'structure2')
-      secondRoomTimeline.add(enterClimbingWall, 'bench-and-wall')
-      secondRoomTimeline.add(enterBench, 'bench-and-wall')
-      secondRoomTimeline.add(enterOrangeHolds, '-=0.1')
-      secondRoomTimeline.add(enterRedHolds, '-=0.1')
-      secondRoomTimeline.add(enterPurpleHolds, '-=0.1')
-      secondRoomTimeline.add(enterBlueHolds, '-=0.1')
-      secondRoomTimeline.add(enterGreenHolds, '-=0.1')
+      ).to(modelChildren['Structure2'].scale, {
+        x: 1,
+        duration: 0.3
+      }, 'structure2').to(modelChildren['ClimbingWall'].scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'back.out(2)'
+      }, 'bench-and-wall').to(modelChildren['Bench'].scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'back.out(2)'
+      }, 'bench-and-wall').to(modelChildren['OrangeHolds'].scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'back.out(2)'
+      }, '-=0.1').to(modelChildren['RedHolds'].scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'back.out(2)'
+      }, '-=0.1').to(modelChildren['PurpleHolds'].scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'back.out(2)'
+      }, '-=0.1').to(modelChildren['BlueHolds'].scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'back.out(2)'
+      }, '-=0.1').to(modelChildren['GreenHolds'].scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'back.out(2)'
+      }, '-=0.1').to(modelChildren['ClimbingPoster'].scale, {
+        x: 1,
+        y: 1,
+        z: 1,
+        duration: 0.3,
+        ease: 'back.out(2)'
+      })
     })
 
     setLoaded(true)

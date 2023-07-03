@@ -130,7 +130,62 @@ export default function Preloader(): JSX.Element {
             y: 1,
             z: 1,
             ease: 'back.out(1)'
-          }).to(modelChildren['ChairLegs'].scale, {
+          }).to(modelChildren['Bulletin'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }).to([modelChildren['Books1'].scale, modelChildren['Books2'].scale], {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'books').to(modelChildren['Books3'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'books+=0.2').to(modelChildren['Books4'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'books+=0.4').to(modelChildren['Books5'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'books+=0.6').to(modelChildren['Box'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'bookshelfItems').to(modelChildren['Bowl'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'bookshelfItems+=0.2').to(modelChildren['Plant'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'bookshelfItems+=0.4').to(modelChildren['Picture1'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'pictures').to(modelChildren['Picture2'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'pictures+=0.2').to(modelChildren['Picture3'].scale, {
+            x: 1,
+            y: 1,
+            z: 1,
+            ease: 'back.out(1)'
+          }, 'pictures+=0.4').to(modelChildren['ChairLegs'].scale, {
             x: 1,
             y: 1,
             z: 1,
