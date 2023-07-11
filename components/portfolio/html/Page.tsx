@@ -140,7 +140,9 @@ export default function Page(): JSX.Element {
         sx={{ height: '3000px', width: '100%', position: 'relative', zIndex: '2' }}
       />
 
-      <AboutMe background={mode ? 'text.primary' : 'text.secondary'} />
+      <Box component='div' sx={{ position: 'relative', zIndex: '2' }}>
+        <AboutMe background={mode ? 'text.primary' : 'text.secondary'} />
+      </Box>
 
       <Box
         className='second-move'
@@ -148,7 +150,9 @@ export default function Page(): JSX.Element {
         sx={{ height: '3000px', width: '100%', position: 'relative', zIndex: '2' }}
       />
 
-      <MyWork background={mode ? 'text.primary' : 'text.secondary'} />
+      <Box component='div' sx={{ position: 'relative', zIndex: '2' }}>
+        <MyWork background={mode ? 'text.primary' : 'text.secondary'} />
+      </Box>
 
       <Box
         className='third-move'
